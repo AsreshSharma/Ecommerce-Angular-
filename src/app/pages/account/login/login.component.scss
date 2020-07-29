@@ -1,0 +1,59 @@
+#footer {
+    position: fixed;
+    text-align: center;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin-bottom: 0px;
+}
+.login-page body {
+    margin-bottom:50px;
+    background: #dfdfdf!important;
+}
+
+
+.login-page .theme-card .theme-form input {
+    border-radius: 20px;
+}
+
+.login-page .theme-card {
+    border: 0px solid #dddddd!important;
+}
+
+@media (max-width: 420px) {
+    .login-page .theme-card .theme-form input {
+        padding: 10px 10px;
+        margin-bottom: 20px;
+        border-radius: 20px;
+    }
+}
+.login-page h3 {
+    margin-bottom: 0px;
+}
+
+.roundbtn{
+    border-radius: 22px;
+    padding: 10px 26px;
+}
+
+
+.login-page .theme-card .theme-form input{
+    padding: 10px;
+    margin-bottom: 20px;
+    box-shadow: aquamarine;
+    box-shadow: 0 4px 8px 0 rgba(179, 179, 179, 0.2), 0 3px 5px 0 rgba(220, 220, 220, 0.19);
+    border-radius: 20px;
+ }
+ .login-page{
+    position: relative;
+    font-size: 14px;
+    background: linear-gradient(to bottom, #ffffff 52%, #d7d7d7 100%);
+ }
+
+ a{
+     color: black;
+ }
+
+ body{
+    background: #dadada!important;
+ }

@@ -1,0 +1,54 @@
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+
+
+<!-- section start -->
+<section class="login-page section-b-space">
+    <div class="container">
+        <br>
+        <div class="row">
+            <div class="col-lg-6" style="display: none;">
+                <h3 style="text-align: center;">&nbsp;</h3>
+                <div class="theme-card" style="text-align: center;">
+                  <img src="{{ cmplogo }}" alt="Logo" style="width: 100%;">
+                </div>
+            </div>
+            <div class="col-md-1 offset-md-2"></div>
+            <div class="col-12 col-lg-6">
+                <h3 style="text-align: center;">Login</h3>
+                <br>
+                <p style="text-align: center;">Welcome Back on Our Online Store</p>
+                <div class="theme-card authentication-right">                  
+                      <form class="theme-form" #accountForm="ngForm" (ngSubmit)="onSubmit($event)" novalidate>
+                        <div class="form-group">
+                            <input placeholder="Mobile No" type="text" name="userId" [(ngModel)]="userId" class="form-control" >
+                          </div>
+                          <div class="form-group">
+                            <input placeholder="Password" type="password" name="password" [(ngModel)]="password" class="form-control">
+                          </div>
+                          <div class="row text-center">
+                            <div class="col-6 col-md-6">
+                              <button type="submit" class="btn btn-solid roundbtn">Login</button>
+                            </div>
+                            <div class="col-6 col-md-6">
+                              <button class="btn btn-solid roundbtn" (click)="openSignUp();">Signup</button>
+                            </div>
+                            <div class="col-md-12" style="text-align: center;top: 30px;"> 
+                              <a routerLink="/forget/password">              
+                                Forgot Password ?
+                              </a>               
+                              <hr>
+                              <a routerLink="/home/fashion" style="color:red!important">
+                                Or Continue as Guest !
+                              </a>
+                            </div>
+                          </div>
+                    </form>
+                </div>
+            </div>            
+            <div class="col-md-1 offset-md-2"></div>
+        </div>
+    </div>
+</section>
+<!--Section ends-->

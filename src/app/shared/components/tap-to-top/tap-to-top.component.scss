@@ -1,0 +1,11 @@
+
+.onlyweb{
+    display: block!important;
+}
+
+
+@media (max-width: 577px){
+    .onlyweb{
+        display: none!important;
+    }
+}

@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+/* Add application styles & imports to this file! */
+@import url('https://fonts.googleapis.com/css?family=Spectral+SC:700');
+
+@import '~ngx-sharebuttons/themes/material/material-dark-theme';
+@import '~ngx-sharebuttons/themes/modern/modern-light-theme';
+
+
+body111 {
+    background-color: #f9f9f9;
+    font-family: 'Spectral SC', serif;
+    margin: 0;
+}
+  
+
+.bg-gradient{    
+    background: #dfdfdf!important;
+}

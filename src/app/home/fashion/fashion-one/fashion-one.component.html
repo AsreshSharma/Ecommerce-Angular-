@@ -1,0 +1,131 @@
+<app-header-one [sticky]="true"></app-header-one>
+
+<!-- search product click page  -->
+<div class="title1 section-t-space mobileCategoryActive"> 
+  <div class="input-group md-form form-sm form-2 pl-0" style="padding: 3px!important;">
+    <input class="form-control my-0 py-1 amber-border" type="text" placeholder="Search" aria-label="Search"
+     style="border-top-left-radius: 25px;border-bottom-left-radius: 25px;height: 38px;">
+    <div class="input-group-append" 
+      style="height: 38px;" (click)="productsearch()">
+      <span class="input-group-text amber lighten-3" id="basic-text1" style="border-top-right-radius: 25px!important;border-bottom-right-radius: 25px!important;">
+        <i class="fa fa-search text-grey" aria-hidden="true"></i>
+      </span>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Home slider start-->
+<section class="p-0" *ngIf="sliders">
+  <app-slider 
+    [sliders]="sliders" 
+    [textClass]="'text-center'"
+    [category]="'fashion'"
+    [buttonText]="'shop now'"> 
+  </app-slider>
+</section>
+<!-- Home slider End -->
+
+
+<!-- Product slider start-->
+<div class="title1 section-t-space mobileCategory" *ngIf="categoryList">  
+  <h4>Our Featured </h4>
+  <h2 class="title-inner1">Catalog</h2>  
+</div>
+
+<section class="section-b-space p-t-0 mobileCategory" *ngIf="categoryList">
+  <div class="container">
+    <div class="row">
+        <ng-container *ngFor="let category of categoryList">
+          <div class="col-md-3 product-m no-arrow">
+            <div class="product-box">
+              <app-category  [category]="category" >
+              </app-category>
+            </div>
+          </div>
+        </ng-container>
+    </div>
+  </div>
+</section>
+
+
+<section class="section-b-space p-t-0 mobileCategoryActive" *ngIf="categoryList">
+  <!-- <h3>Mobile App</h3> -->
+  <div class="container" *ngIf="categoryList">
+    <div class="row">
+      <div class="col-4" *ngFor="let category of categoryList">
+        <a [routerLink]="['/shop/productList/left/sidebar/', category.category_id]" class="image thumbnail">
+          <img src="{{category.img}}" draggable="false" alt="{{ category.category_name }}" class="image">
+          <h3>{{ category.category_name }}</h3>
+        </a>
+      </div>
+    </div>    
+  </div>
+</section>
+
+<!-- collection banner start-->
+<section class="pb-0" *ngIf="offersList">
+  <div class="container">
+    <div class="title1 section-t-space" style="padding-top: 5px;">
+      <h4>Latest</h4>
+      <h2 class="title-inner1">Offers</h2>
+    </div>
+    <div class="row partition2">
+      <div class="col-6 col-md-6" *ngFor="let offer of offersList">
+        <a [routerLink]="['/home/offer/offer-details',offer.id]">
+          <div class="collection-banner p-right text-center">
+            <img [src]="offer.img" class="img-fluid" alt="collection-banner">
+            <!--<div class="contain-banner">
+              <div>
+                <h4>{{collection.save}}</h4>
+                <h2>{{collection.title}}</h2>
+              </div>
+            </div>-->
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- collection banner End -->
+
+
+
+<!-- Tab product start-->
+<section class="section-b-space p-t-0" *ngIf="featureProducts">
+  <div class="container">
+    <div class="title1 section-t-space">
+      <h4>exclusive products</h4>
+      <h2 class="title-inner1">special products</h2>
+    </div>
+    <div class="row">
+      <div class="col theme-tab">
+          <div class="no-slider row">
+            <ng-container >
+              <div class="product-box" *ngFor="let product of featureProducts">
+                <app-product-box-one 
+                  [product]="product" 
+                  [currency]="productService?.Currency"
+                  [thumbnail]="true"
+                  [cartModal]="true">
+                </app-product-box-one>
+              </div>
+            </ng-container>
+          </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Tab product End -->
+
+<!-- services start-->
+<div class="container" style="padding-top: 15px;">
+  <section class="service border-section small-section">
+    <app-services></app-services>
+  </section>
+</div>
+<!-- services End -->
+
+<app-footer-one></app-footer-one>
+

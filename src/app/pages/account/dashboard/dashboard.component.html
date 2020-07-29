@@ -1,0 +1,586 @@
+<app-breadcrumb [title]="'Profile'" [breadcrumb]="'Profile'"></app-breadcrumb>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">Loading...</p>
+  </ngx-spinner>
+<!-- section start -->
+<section class="section-b-space" style="background-color: #ececec;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="account-sidebar" (click)="ToggleDashboard()">
+                    <a hre="javascript:void(0)" class="popup-btn">
+                        Wallet: {{ model.wallet }}
+                    </a>
+                </div>
+                <div class="dashboard-left" [class.open]="openDashboard">
+                    <div class="collection-mobile-back" (click)="ToggleDashboard()">
+                        <span class="filter-back">
+                            <i class="fa fa-angle-left" aria-hidden="true"></i> back
+                        </span>
+                    </div>
+                    <div class="block-content">
+                        
+                        <h3 class="desktopwallet" style="border-bottom: 1px solid #17a2b8;font-size: 18px;">                                
+                            Wallet Ballance: {{ model.wallet }}
+                        </h3>
+                        <ul>
+                            <li class="{{checkactive(0)}}">
+                                <a href="javascript:void(0)" (click)="account_info()">Profile</a>
+                            </li>
+                            <li class="{{checkactive(1)}}">
+                                <a href="javascript:void(0)" (click)="address_book()">Address Book</a>
+                            </li>
+                            <li class="{{checkactive(2)}}">
+                                <a href="javascript:void(0)" (click)="my_orders()">My Orders</a>
+                            </li>
+                            <!--
+                            <li class="{{checkactive(3)}}">
+                                <a href="javascript:void(0)" (click)="my_wishlist()">My Wishlist</a>
+                            </li>
+                            <li class="{{checkactive(4)}}">
+                                <a href="javascript:void(0)" (click)="news_letter()">Newsletter</a>
+                            </li>
+                            <li class="{{checkactive(5)}}">
+                                <a href="javascript:void(0)" (click)="my_account()">My Account</a>
+                            </li>
+                            -->
+                            <li class="{{checkactive(6)}}">
+                                <a href="javascript:void(0)" (click)="change_password()">Change Password</a>
+                            </li>
+                            <li class="last">
+                                <a href="javascript:void(0)" (click)="logout()">Log Out</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <!-- Account Info -->
+                <div class="dashboard-right" *ngIf="statusNo==0">
+                    <div class="dashboard">
+                        <div class="box-account box-info">                                                        
+                            <div class="theme-card">                         
+                                <form class="theme-form" #profileForm="ngForm" (ngSubmit)="saveProfile()" novalidate>
+                                    <div class="row">
+                                        <div class="col-md-4 form-group">
+                                            <label >Name: </label>
+                                            <input type="text" class="form-control form-control-sm" name="name" [(ngModel)]="model.name" />
+                                        </div>
+                                        <div class="col-md-4 form-group">
+                                            <label >Mobile: </label>
+                                            <input type="number" readonly="readonly" class="form-control form-control-sm" name="mobile" [(ngModel)]="model.mobile">
+                                        </div>
+                                        <div class="col-md-4 form-group">
+                                            <label class="">Email: </label>   
+                                            <input type="email" class="form-control form-control-sm" name="email" [(ngModel)]="model.email">                                 
+                                        </div>
+                                        <div class="col-md-4 form-group">
+                                            <label class="">D.O.B:</label>   
+                                            <input type="date" class="form-control form-control-sm" name="dob" [(ngModel)]="model.dob">                                   
+                                        </div>
+
+                                        <div class="col-md-4 form-group">
+                                            <label class="">City: </label>   
+                                            <input type="text" class="form-control form-control-sm" name="city" [(ngModel)]="model.city">                                   
+                                        </div>
+
+                                        <div class="col-md-4 form-group">
+                                            <label class="">State: </label>   
+                                            <input type="text" readonly="readonly" class="form-control form-control-sm" name="state" [(ngModel)]="model.state">                                   
+                                        </div>
+
+                                        <div class="col-md-12 form-group">
+                                            <label class="">Address: </label>
+                                            <textarea rows="5" class="form-control form-control-sm" name="address" [(ngModel)]="model.address"></textarea>
+                                        </div>
+                                        <div class="col-md-12 form-group">
+                                            <button class="btn btn-success" type="submit">Update</button>
+                                            &nbsp; &nbsp;
+                                            <button class="btn btn-info" (click)="address_book()">Adress Book</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!--
+                                
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="box">
+                                        <div class="box-title">
+                                            <h3>Contact Information</h3>
+                                            <a href="javascript:void(0)">Edit</a>
+                                        </div>
+                                        <div class="box-content">
+                                            <h6>MARK JECNO</h6>
+                                            <h6>MARk-JECNO@gmail.com</h6>
+                                            <h6><a href="javascript:void(0)">Change Password</a></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="box">
+                                        <div class="box-title">
+                                            <h3>Newsletters</h3>
+                                            <a href="javascript:void(0)">Edit</a>
+                                        </div>
+                                        <div class="box-content">
+                                            <p>
+                                                You are currently not subscribed to any newsletter.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="box">
+                                    <div class="box-title">
+                                        <h3>Address Book</h3>
+                                        <a href="javascript:void(0)">Manage Addresses</a>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <h6>Default Billing Address</h6>
+                                            <address>
+                                                You have not set a default billing address.<br>
+                                                <a href="javascript:void(0)">Edit Address</a>
+                                            </address>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <h6>Default Shipping Address</h6>
+                                            <address>
+                                                You have not set a default shipping address.<br>
+                                                <a href="javascript:void(0)">Edit Address</a>
+                                            </address>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Address Books -->
+                <div class="dashboard-right" *ngIf="statusNo==1">
+                    <div class="dashboard">
+                        <div class="page-title">
+                            <div class="row">
+                                <div class="col-9 col-md-6">                                    
+                                    <h3 style="font-weight: bold;"> Address Book </h3>
+                                </div>
+                                <div class="col-2 col-md-6" style="text-align: right;" *ngIf="addressStatus==0">
+                                    <span class="custBTN" (click)="addAddress();">Add</span>
+                                </div>
+
+                                <div class="col-2 col-md-6" style="text-align: right;" *ngIf="addressStatus==1 || addressStatus==2">
+                                    <span class="custBack" (click)="address_book();">Back</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-account box-info" *ngIf="addressStatus==0">
+                            <div class="row" *ngIf="addressLists">
+                                <div class="col-12 col-md-4" *ngFor="let ua of addressLists; let i = index">
+                                    <strong>{{ i+1 }}. {{ ua.name }}, {{ ua.mobile }}</strong>
+                                    <p>
+                                        {{ ua.address }}, {{ ua.city }}, {{ ua.state }}
+                                        <br>
+                                        latitude: {{ ua.latitude }} and Longitude: {{ ua.longitude }}
+                                        <br>
+                                        <span class="custBTNup" (click)="updateAddress(ua.id)">Edit</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="box-account box-info" *ngIf="addressStatus==1">
+                            <h3>Add Address</h3>                         
+                            <div class="theme-card">
+                                <form class="theme-form" #registerForm="ngForm" (ngSubmit)="saveaddAddress()" novalidate>
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <label for="name">Full Name</label>
+                                            <input type="text" class="form-control" name="password" [(ngModel)]="addressForm.name">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="mobile">Mobile</label>
+                                            <input type="number" class="form-control" name="mobile" [(ngModel)]="addressForm.mobile">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="address">Address</label>
+                                            <input type="text" class="form-control" name="address" [(ngModel)]="addressForm.address">
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label for="state">State</label>                                            
+                                            <select class="form-control" name="state" [(ngModel)]="addressForm.state" (change)="stateChange($event.target.value)">
+                                                <option *ngFor="let state of stateList" [value]="state.id">{{state.name}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="city">City</label>
+                                            <select class="form-control" name="city" [(ngModel)]="addressForm.city">
+                                                <option *ngFor="let city of cityList" [ngValue]="city.id">{{city.name}}</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label for="state">Latitude</label>
+                                            <input type="text" class="form-control" name="latitude" [(ngModel)]="addressForm.latitude">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="longitude">Longitude</label>
+                                            <input type="text" class="form-control" name="longitude" [(ngModel)]="addressForm.longitude">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="status">Status</label>
+                                            <select class="form-control" name="status" [(ngModel)]="addressForm.status">
+                                                <option [ngValue]="1">Default</option>
+                                                <option [ngValue]="0">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <hr style="border: none;">
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                            <button class="btn btn-sm btn-solid" type="submit">Save</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <div class="box-account box-info" *ngIf="addressStatus==2">
+                            <h3>Update Address</h3>                              
+                            <div class="theme-card">
+                                <form class="theme-form" #registerForm="ngForm" (ngSubmit)="saveupdateAddress()" novalidate>
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <label for="name">Full Name</label>
+                                            <input type="text" class="form-control" name="password" [(ngModel)]="addressForm.name">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="mobile">Mobile</label>
+                                            <input type="number" class="form-control" name="mobile" [(ngModel)]="addressForm.mobile">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="address">Address</label>
+                                            <input type="text" class="form-control" name="address" [(ngModel)]="addressForm.address">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="state">State</label>                                            
+                                            <select class="form-control" name="state" [(ngModel)]="addressForm.state" (change)="stateChange($event.target.value)">
+                                                <option *ngFor="let state of stateList" [value]="state.id">{{state.name}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="city">City</label>
+                                            <select class="form-control" name="city" [(ngModel)]="addressForm.city">
+                                                <option *ngFor="let city of cityList" [ngValue]="city.id">{{city.name}}</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label for="state">Latitude</label>
+                                            <input type="text" class="form-control" name="latitude" [(ngModel)]="addressForm.latitude">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="longitude">Longitude</label>
+                                            <input type="text" class="form-control" name="longitude" [(ngModel)]="addressForm.longitude">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="status">Status</label>
+                                            <select class="form-control" name="status" [(ngModel)]="addressForm.status">
+                                                <option [ngValue]="1">Default</option>
+                                                <option [ngValue]="0">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <hr style="border: none;">
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                            <button class="btn btn-sm btn-solid" type="submit">Update</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- My Orders -->
+                <div class="dashboard-right" *ngIf="statusNo==2">
+                    <div class="dashboard">
+                        <div class="page-title">
+                            <h2>My Orders</h2>
+                        </div>
+                        <div class="box-account box-info">
+                            <div class="box-head">
+                                <div class="row" style="margin: 6px 0px 0px 0px;">
+                                    <div class="col-5 col-md-5 btn {{upprestatus(1)}}" (click)="upcomingorderlist()">
+                                        Upcomming
+                                    </div>
+                                    <div class="col-2 col-md-2"></div>
+                                    <div class="col-5 col-md-5 btn {{upprestatus(2)}}" (click)="previousorderlist()">
+                                        Previous
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="" style="margin-top:10px;">
+                                <div class="container-fluid" *ngIf="orders">
+                                    <div class="row products-admin ratio_asos">
+                                        <div class="col-xl-4 col-sm-6 ng-star-inserted" *ngFor="let order of orders">
+                                            <div class="card">
+                                                <div class="card-body product-box">
+                                                    <div class="img-wrapper">
+                                                        <div class="row">
+                                                            <div class="col-6 col-md-6"><strong>#{{ order.order_no }}</strong></div>
+                                                            <div class="col-6 col-md-6" style="text-align: right;">{{ order.status_msg }}</div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">                                                 
+                                                                Rs.{{  order.amount }}
+                                                            </div>
+                                                            <div class="col-md-12" style="font-size: 10px;">
+                                                                Scheduled on : {{  order.date }}  {{  order.slot_time }}
+                                                                <br>
+                                                                Address: {{  order.cmp_address }}
+                                                                <br>
+                                                                {{  order.coupon }}
+                                                            </div>
+                                                        </div>  
+                                                    </div>
+                                                    <div class="product-detail">  
+                                                        <div class="row">                                                                                      
+                                                            <div class="col-6 col-md-6 btn btn-info" (click)="orderDetail(order.id)"> View </div>
+                                                            <a href="tel:+{{order.mobile}}" class="col-6 col-md-6 btn btn-success"> Call </a>
+                                                        </div>           
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                                        
+                                        <div class="col-12 col-md-12 ng-star-inserted" *ngIf="loadmoredata" >
+                                            <div class="card">
+                                                <a style="color: white;" href="javascript:void(0)" class="btn btn-lg btn-warning" (click)="upcomingorderlistmore()">Load More</a>
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                </div>
+                                
+                                <!-- start read order with designs --> 
+                                
+                                <div class="container-fluid" *ngIf="readorder">
+                                    <div class="row products-admin ratio_asos">
+                                        <div class="col-12 col-xl-12 col-sm-12 ng-star-inserted">
+                                            <div class="card">
+                                                <div class="card-body product-box">
+                                                    <div class="img-wrapper">
+                                                        <div class="row">
+                                                            <div class="col-6 col-md-6">
+                                                                #{{ readorder.order_no }}
+                                                            </div>
+                                                            <div class="col-6 col-md-6" style="text-align: right;">                                                                
+                                                                <strong>{{ readorder.status_msg }}</strong>
+                                                            </div>
+                                                            <div class="col-12 col-md-12">                                                                                                                              
+                                                                <i class="fa fa-building-o" aria-hidden="true"></i> : {{ readorder.cmp_name }}  
+                                                                <br>                                                                                                                                   
+                                                                <i class="fa fa-map-marker" aria-hidden="true"></i> : {{ readorder.cmp_address }} 
+                                                                <br>                                          
+                                                                <i class="fa fa-clock-o" aria-hidden="true"></i> : {{  readorder.date }}  {{  readorder.slot_time }}
+                                                            </div>
+                                                            <div class="col-12 col-md-12 table table-responsive">
+                                                                <table class="table tabls-sm">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Item</th>
+                                                                            <th class="tdalingright">Qty</th>
+                                                                            <th class="tdalingright">Amount</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr *ngFor="let item of readorder.product">
+                                                                            <td>{{ item.product_name}}</td>
+                                                                            <td class="tdalingright">{{ item.product_qty}}</td>
+                                                                            <td class="tdalingright">{{ item.product_amount}}</td>
+                                                                        </tr>
+                                                                        <tr *ngIf="readorder.sub_total > 0">
+                                                                            <td class="tdalingright">Sub Total</td>
+                                                                            <td class="tdalingright">{{ readorder.total_qty }}</td>
+                                                                            <td class="tdalingright">{{ readorder.sub_total }}</td>
+                                                                        </tr>
+                                                                        <tr *ngIf="readorder.wallet_amount > 0">
+                                                                            <td colspan="2" class="tdalingright">Wallet</td>
+                                                                            <td class="tdalingright">{{ readorder.wallet_amount }}</td>
+                                                                        </tr>
+                                                                        <tr *ngIf="readorder.discount_amount > 0">
+                                                                            <td colspan="2" class="tdalingright">Discount</td>
+                                                                            <td class="tdalingright">{{ readorder.discount_amount }}</td>
+                                                                        </tr>
+                                                                        <tr *ngIf="readorder.grandtotal > 0">
+                                                                            <td colspan="2" class="tdalingright">Grand Total</td>
+                                                                            <td class="tdalingright">{{ (readorder.grandtotal-readorder.discount_amount) }}</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end read order with designs -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- My Whishlist -->
+                <div class="dashboard-right" *ngIf="statusNo==3">
+                    <div class="dashboard">
+                        <div class="page-title">
+                            <h2>My Whishlist</h2>
+                        </div>
+                        <div class="welcome-msg">
+                            <p>Hello, {{ profileInfo.name }}</p>                            
+                        </div>
+                        <div class="box-account box-info">
+                            <div class="box-head">
+                                <h2>Account Information</h2>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 form-group">
+                                    <label class="form-control form-control-sm">Mobile: {{ profileInfo.customer_mobile }}</label>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label class="form-control form-control-sm">Email: {{ profileInfo.email }}</label>                                    
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label class="form-control form-control-sm">D.O.B: {{ profileInfo.dob }}</label>                                    
+                                </div>
+
+                                <div class="col-md-4 form-group">
+                                    <label class="form-control form-control-sm">Age: {{ profileInfo.age }}</label>                                    
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <label class="form-control form-control-sm">Address: {{ profileInfo.address }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- News Letters -->
+                <div class="dashboard-right" *ngIf="statusNo==4">
+                    <div class="dashboard">
+                        <div class="page-title">
+                            <h2>News Letter</h2>
+                        </div>
+                        <div class="welcome-msg">
+                            <p>Hello, {{ profileInfo.name }}</p>                            
+                        </div>
+                        <div class="box-account box-info">
+                            <div class="box-head">
+                                <h2>Account Information</h2>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 form-group">
+                                    <label class="form-control form-control-sm">Mobile: {{ profileInfo.customer_mobile }}</label>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label class="form-control form-control-sm">Email: {{ profileInfo.email }}</label>                                    
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label class="form-control form-control-sm">D.O.B: {{ profileInfo.dob }}</label>                                    
+                                </div>
+
+                                <div class="col-md-4 form-group">
+                                    <label class="form-control form-control-sm">Age: {{ profileInfo.age }}</label>                                    
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <label class="form-control form-control-sm">Address: {{ profileInfo.address }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- My Account -->
+
+                <div class="dashboard-right" *ngIf="statusNo==5">
+                    <div class="dashboard">
+                        <div class="page-title">
+                            <h2>My Account</h2>
+                        </div>
+                        <div class="welcome-msg">
+                            <p>Hello, {{ profileInfo.name }}</p>                            
+                        </div>
+                        <div class="box-account box-info">
+                            <div class="box-head">
+                                <h2>Account Information</h2>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 form-group">
+                                    <label class="form-control form-control-sm">Mobile: {{ profileInfo.customer_mobile }}</label>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label class="form-control form-control-sm">Email: {{ profileInfo.email }}</label>                                    
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label class="form-control form-control-sm">D.O.B: {{ profileInfo.dob }}</label>                                    
+                                </div>
+
+                                <div class="col-md-4 form-group">
+                                    <label class="form-control form-control-sm">Age: {{ profileInfo.age }}</label>                                    
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <label class="form-control form-control-sm">Address: {{ profileInfo.address }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- change password -->
+                <div class="dashboard-right" *ngIf="statusNo==6">
+                    <div class="dashboard">
+                        <div class="page-title">
+                            <h2>Change Password</h2>
+                        </div>
+                        <div class="box-account box-info">    
+                            <div class="theme-card">
+                                <form class="theme-form" #registerForm="ngForm" (ngSubmit)="cpSave()" novalidate>
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            <label for="old_password">Old Password</label>
+                                            <input type="password" class="form-control" name="password" [(ngModel)]="cp.old_password" placeholder="Old Password" required="">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="email">New Password</label>
+                                            <input type="password" class="form-control" name="password" [(ngModel)]="cp.new_password" placeholder="New Password" required="">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="review">Re-Password</label>
+                                            <input type="password" class="form-control" name="repassword" [(ngModel)]="cp.confirm_password" placeholder="Confirm password" required="">
+                                        </div>
+                                    </div>
+                                    <hr style="border: none;">
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                            <button class="btn btn-sm btn-solid" type="submit">Save</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- section end -->

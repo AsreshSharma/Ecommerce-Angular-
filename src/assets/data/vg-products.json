@@ -1,0 +1,64 @@
+[{
+        "id": 1,
+        "title": "trim dress",
+        "description": "manas manas It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.",
+        "type": "fashion",
+        "brand": "nike",
+        "collection": ["new products"],
+        "category": "Women",
+        "price": 145,
+        "sale": true,
+        "discount": "40",
+        "stock": 5,
+        "new": true,
+        "tags": [
+            "new",
+            "s",
+            "m",
+            "yellow",
+            "white",
+            "pink",
+            "nike"
+        ],
+        "variants": [{
+                "variant_id": 101,
+                "id": 1,
+                "sku": "sku1",
+                "size": "s",
+                "color": "yellow",
+                "image_id": 111
+            }
+        ],
+        "images": [{
+                "image_id": 111,
+                "id": 1,
+                "alt": "yellow",
+                "src": "https://express.accountantlalaji.com/newapp/assets/staff/brand/brooke-lark-08bOYnH_r_E-unsplash.jpg",
+                "variant_id": [
+                    101,
+                    104
+                ]
+            },
+            {
+                "image_id": 112,
+                "id": 1,
+                "alt": "white",
+                "src": "assets/images/product/fashion/6.jpg",
+                "variant_id": [
+                    102,
+                    105
+                ]
+            },
+            {
+                "image_id": 113,
+                "id": 1,
+                "alt": "pink",
+                "src": "assets/images/product/fashion/25.jpg",
+                "variant_id": [
+                    103,
+                    106
+                ]
+            }
+        ]
+    }
+]

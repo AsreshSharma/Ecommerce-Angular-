@@ -1,0 +1,140 @@
+<header class="sticky" [ngClass]="class" [class.fixed]="stick && sticky">
+  <div class="mobile-fix-option">
+    <div class="row ghfghfgh1" style="display: none;">
+      <div class="col-3">
+        <a routerLink="/home/fashion">
+          <i class="fa fa-home" aria-hidden="true"></i><br>Home
+        </a>
+      </div>
+      <div class="col-3">
+        <a routerLink="/shop/cart">
+          <span class="cartself" *ngIf="products.length > 0">{{ products.length }}</span>
+          <i class="fa fa-shopping-cart" aria-hidden="true"></i><br>Cart
+        </a>
+      </div>
+
+      <div class="col-3" *ngIf="isLogin">
+        <a routerLink="/pages/dashboard">
+          <i class="fa fa-book" aria-hidden="true"></i><br>Order
+        </a>
+      </div>
+
+      <div class="col-3" *ngIf="isLogin">
+        <a routerLink="/pages/dashboard">
+          <i class="fa fa-user" aria-hidden="true"></i><br>Profile
+        </a>
+      </div>
+
+      <div class="col-3" *ngIf="!isLogin">
+        <a routerLink="/pages/login">
+          <i class="fa fa-sign-in" aria-hidden="true"></i><br>Login
+        </a>
+      </div>
+
+      <div class="col-3" *ngIf="!isLogin">
+        <a routerLink="/pages/register">
+          <i class="fa fa-user-plus" aria-hidden="true"></i><br>Signup
+        </a>
+      </div>
+
+    </div>
+  </div>
+  <div class="top-header" *ngIf="topbar">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="header-contact">
+            <ul>
+              <li><i class="fa fa-phone" aria-hidden="true"></i>Call Us: {{mobile}}</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6 text-right ghfghfgh">
+          <ul class="header-dropdown">
+            <!-- 
+              <li class="compare">
+                  <a [routerLink]="['/shop/compare']">
+                    <i class="fa fa-random" aria-hidden="true"></i>Compare
+                  </a>
+                </li>
+
+                <li class="mobile-wishlist">
+                  <a [routerLink]="['/shop/wishlist']">
+                    <i class="fa fa-heart" aria-hidden="true"></i>Wishlist
+                  </a>
+                </li>
+            -->
+            <li>              
+              <div class="input-group md-form form-sm form-2 pl-0" style="padding: 3px!important;">
+                <input class="form-control my-0 py-1 amber-border" type="text" placeholder="Search" aria-label="Search"
+                style="border-top-left-radius: 10px!important;border-bottom-left-radius: 10px!important;
+                height: 38px!important;border-top-right-radius: 0px!important;border-bottom-right-radius: 0px!important;">
+                <div class="input-group-append" 
+                  style="border-radius: 16px;height: 38px;"  (click)="productsearch()">
+                  <span class="input-group-text amber lighten-3" id="basic-text1"><i class="fa fa-search text-grey"
+                      aria-hidden="true"></i></span>
+                </div>
+              </div>
+            </li>
+            <li class="onhover-dropdown mobile-account" *ngIf="!isLogin">
+              <i class="fa fa-user" aria-hidden="true"></i> My Account &nbsp; &nbsp; 
+              <ul class="onhover-show-div">
+                <li >
+                  <a data-lng="en" routerLink="/pages/login">
+                    Login
+                  </a>
+                </li>
+                <li >
+                  <a data-lng="en" routerLink="/pages/register">
+                    Signup
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <li class="onhover-dropdown mobile-account" *ngIf="isLogin">
+              <i class="fa fa-user" aria-hidden="true"></i> My Account &nbsp; &nbsp; 
+              <ul class="onhover-show-div">
+                <li >
+                  <a data-lng="en" routerLink="/pages/dashboard">
+                    My Profile
+                  </a>
+                </li>
+                <li>
+                  <a data-lng="es" (click)="logout()">
+                    Logout
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+     <div class="row">
+      <div class="col-sm-12">
+        <div class="main-menu">
+          <div class="menu-left">
+            <app-left-menu></app-left-menu>
+            <div  *ngIf="logo">
+              <a routerLink="/home/fashion" id="headerlogo">
+                <img src="{{ logo }}"  class="img-fluid img-responsive"
+                style="position: relative; max-width: 100%; height: 100px;"  alt="Logo">
+              </a>
+            </div>
+          </div>
+          <div class="menu-right pull-right">
+            <div>
+              <app-menu></app-menu>
+            </div>
+            <div>
+              <app-settings></app-settings>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

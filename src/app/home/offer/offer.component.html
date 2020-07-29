@@ -1,0 +1,63 @@
+
+
+    <app-header-one [sticky]="true"></app-header-one>
+
+    <!-- collection banner start-->
+    <section class="pb-0">
+        <div class="container" style="margin-bottom: 50px;">
+            <div class="title1 section-t-space">
+                <h4>Latest</h4>
+                <h2 class="title-inner1">Offers</h2>
+            </div>
+            <div class="row partition2">
+                <div class="col-md-4" *ngFor="let offer of offersList" style="margin-bottom: 1px;">
+            
+                    <a [routerLink]="['/home/offer/offer-details',offer.id]">
+                        <div class="collection-banner p-right text-center">
+                        <img [src]="offer.img" class="img-fluid" alt="collection-banner">
+                        <div class="contain-banner" style="display: none;">
+                            <div>
+                                <h4>{{offer.code}}</h4>
+                                <h2>{{offer.name}}</h2>
+                                <p>
+                                    {{offer.description}}
+                                </p>
+                            </div>
+                        </div>
+                        </div>
+                    </a>        
+                    
+                    <!--
+                    <div class="collection-banner p-right text-center">
+                        <div class="card">
+                            <img class="card-img-top" [src]="offer.img" alt="Card image cap">
+                            <div class="card-body">
+                            <h5 class="card-title">{{offer.name}}</h5>
+                            <p class="card-text">{{offer.description}}</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                            <li class="list-group-item">{{offer.code}}</li>
+                            </ul>
+                            <div class="card-body">
+                            <a href="#" class="card-link">View</a>
+                            <a [routerLink]="['/shop/collection/left/sidebar']" [queryParams]="{ category: 'fashion'}" class="card-link">Click Here</a>
+                            </div>
+                        </div>
+                    </div>
+                    -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- collection banner End -->
+
+
+
+    <!-- services start-->
+    <div class="container">
+        <section class="service border-section small-section">
+        <app-services></app-services>
+        </section>
+    </div>
+    <!-- services End -->
+    <app-footer-one></app-footer-one>

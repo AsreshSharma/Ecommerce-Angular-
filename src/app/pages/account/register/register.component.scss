@@ -1,0 +1,66 @@
+#footer {
+    position: fixed;
+    text-align: center;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin-bottom: 0px;
+}
+body {
+    margin-bottom:50px;
+}
+
+@media (max-width: 480px){
+    .register-page .theme-card .theme-form input {
+        margin-bottom: 4px;
+        padding: 6px 6px;
+    }
+
+    .form-control {
+        height: 33px;
+    }
+    
+    .register-page h3 {
+        margin-bottom: 0px;
+        text-transform: uppercase;
+        color: #222222;
+        font-weight: 700;
+        margin-top: 0px;
+    }
+}
+
+.register-page .theme-card {
+    border: 0px solid #dddddd;
+}
+
+
+.roundbtn{
+    border-radius: 22px;
+    padding: 10px 26px;
+}
+
+.register-page .theme-card .theme-form label {
+    text-transform: capitalize;
+    color: #a0a0a0;
+    font-size: 14px;
+ }
+ 
+ .register-page label {
+    display: inline-block;
+    margin-bottom: 2px!important;
+}
+
+ .register-page{
+    position: relative;
+    font-size: 14px;
+    background: linear-gradient(to bottom, #ffffff 52%, #d7d7d7 100%);
+ }
+ 
+ a{
+    color: black;
+}
+
+
+body{
+    background: #dadada!important;
+ }

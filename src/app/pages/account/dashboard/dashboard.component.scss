@@ -1,0 +1,127 @@
+
+
+.form-control {
+     height: auto!important;
+     border-radius: 15px!important;
+}
+
+.order{    
+     background-color: #c1c1c1;
+     color: white;
+     border: 1px solid #474747;
+}
+
+.custBTN{
+     font-size: 20px;
+     color: white;
+     background: orange;
+     padding: 5px;
+     border: 1px solid orange;
+     border-radius: 12px;
+}
+.custBTNup{     
+     font-size: 8px;
+     color: white;
+     background: orange;
+     padding: 5px;
+     border: 1px solid orange;
+     border-radius: 7px;
+     position: inherit;
+}
+
+.page-title{
+     border-bottom: 1px solid #ff4c3b;
+}
+label {
+     display: inline-block;
+     margin-bottom: 0px;
+ }
+
+ .custBack{
+     font-size: 20px;
+     color: white;
+     background: #948282;
+     padding: 5px;
+     border: 1px solid #948282;
+     border-radius: 12px;
+ }
+
+ @media (max-width: 500px) {
+     .desktopwallet{
+          display: none!important;
+     }
+     .col-6 {
+        flex: 0 0 50%;
+        max-width: 48%!important;
+    }
+ }
+
+ .btnActive{
+      background-color: red;
+      color: white;
+ }
+ .container-fluid, .container-lg, .container-md, .container-sm, .container-xl {
+     width: 100%;
+     padding-right: 5px;
+     padding-left: 5px;
+     margin-right: auto;
+     margin-left: auto;
+ }
+ 
+ .card {
+     margin-bottom: 10px;
+     border: 0;
+     letter-spacing: .5px;
+     border-radius: 8px;
+     box-shadow: 1px 5px 24px 0 rgba(68,102,242,.05);
+ }
+
+ @media only screen and (max-width: 991px){
+     .card .card-body, .card .card-header {
+         padding: 10px;
+     }
+ }
+
+ .products-admin .product-box .img-wrapper {
+     position: relative;
+     overflow: hidden;
+ }
+
+ .products-admin .product-box .product-detail .rating, .products-admin .product-box .product-info .rating {
+     margin-top: 15px;
+ }
+
+ .product-box .product-detail h6, .product-box .product-info h6, .product-wrap .product-detail h6, .product-wrap .product-info h6 {
+     line-height: 1;
+     margin-bottom: 0;
+     padding-top: 0;
+     padding-bottom: 5px;
+     transition: all 0.5s ease;
+     font-size: 16px;
+     margin-top: -17px;
+ }
+ .products-admin .product-box .product-detail .rating i:last-child, .products-admin .product-box .product-info .rating i:last-child {
+     color: #ddd;
+ }
+ .products-admin .product-box .product-detail .rating i, .products-admin .product-box .product-info .rating i {
+     padding-right: 5px;
+     color: #ffa200;
+ }
+
+ .products-admin .product-box .product-detail h6, .products-admin .product-box .product-info h6 {
+     line-height: 1;
+     margin-bottom: 0;
+     padding-top: 2px;
+     padding-bottom: 5px;
+     -webkit-transition: all .5s ease;
+     transition: all .5s ease;
+     font-size: 16px;
+ }
+
+ *, :after, :before {
+     box-sizing: border-box;
+ }
+
+ .tdalingright{
+    text-align: right;
+ }

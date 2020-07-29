@@ -1,0 +1,26 @@
+
+
+.btn {
+    margin: 2px!important;
+}
+
+.productMobileActive{
+    display: none;
+}
+
+@media (max-width: 577px){
+    .productMobile{
+        display: none;
+    }
+    .productMobileActive{
+        display: inline;
+    }
+
+    h6 {
+        font-size: 14px;
+        font-weight: 600;
+        color: black;
+        line-height: 24px;
+    }
+}
+

@@ -1,0 +1,26 @@
+
+@media (max-width: 420px){
+    .breadcrumb-section {
+        padding: 2px 0;
+    }
+}
+
+
+@media (max-width: 500px){
+    .filter-btn{
+        display: none!important;
+    }
+}
+
+.mobileHide1{
+    display: inline!important;
+}
+
+@media (max-width: 577px){
+    .mobileHide1{
+        display: none!important;
+    }
+    section, .section-t-space {
+        padding-top: 0px!important;
+    }
+}

@@ -1,0 +1,191 @@
+.order-box .title-box {
+    position: relative;
+    padding-bottom: 2px!important;
+    color: #444444;
+    font-weight: 600;
+    font-size: 16px!important;
+    border-bottom: 1px solid #ededed;
+    margin-bottom: 20px;
+}
+
+.order-box .qty li {
+    position: relative;
+    display: block;
+    font-size: 12px!important;
+    color: #444444;
+    line-height: 16px!important;
+    margin-bottom: 11px!important;
+}
+
+.order-box .sub-total li {
+    font-size: 16px!important;
+    line-height: 19px!important;
+    margin-bottom: 7px!important;
+}
+.order-box .qty {
+    margin-bottom: 10px!important;
+}
+.order-box .qty li span {
+    font-size: 12px!important;
+    line-height: 16px!important;
+}
+.order-box .sub-total li .count {
+    font-size: 16px!important;
+    line-height: 19px!important;
+}
+.order-box .total li .count {
+    font-size: 16px!important;
+    line-height: 20px!important;
+}
+.checkout-page .checkout-form .checkout-details {
+    padding: 14px 20px!important;
+}
+.order-box {
+    margin-bottom: 0px!important;
+}
+
+.order-box .sub-total {
+    margin-bottom: 8px!important;
+}
+
+.bg-warning {
+    background-color: #dadada !important;
+}
+
+.roundbtn{
+    border-radius: 22px;
+    padding: 10px 26px;
+}
+
+.form-check-label {
+    margin-bottom: 0;
+    color: #007bff!important;
+}
+
+.checkout-page .checkout-form .check-out .form-group:last-child label111    {
+    margin-bottom: 0px!important;
+}
+
+label111{
+    display: inline-block;
+    margin-bottom: 0px!important;
+}
+.checkout-page111 .checkout-form input[type="text"], .checkout-page .checkout-form input[type="email"], .checkout-page .checkout-form input[type="password"], .checkout-page .checkout-form input[type="tel"], .checkout-page .checkout-form input[type="number"], .checkout-page .checkout-form input[type="url"] {
+    height: 40px!important;
+}
+.checkout-page .checkout-form select, .checkout-page .checkout-form textarea111 {
+    height: 40px!important;
+}
+
+.checkout-page .checkout-form .form-group111 {
+    margin-bottom: 5px!important;
+}
+
+.bg-light111 {
+    background: white!important;
+}
+
+
+@media (max-width: 577px){
+    .checkout-page .checkout-form .checkout-details {
+        padding: 0px 0px !important;
+    }
+    .section-b-space {
+        padding-bottom: 0px!important;
+    }
+    .padding-cls {
+        padding-left: 0px!important;
+        padding-right: 0px!important;
+    }
+
+    .checkout-page .checkout-title {
+        margin-bottom: 0px!important;
+    }
+    .headerhiddenmobile {
+        display: none!important;
+    }
+    section, .section-t-space {
+        padding-top: 0px!important;
+    }
+    .checkout-page .checkout-title h3 {
+        font-weight: 700;
+        font-size: 16px;
+        text-align: center;
+        color: orange;
+    }
+    .form-check-label {
+        margin-bottom: 0;
+        color: #007bff !important;
+        font-size: 11px;
+    }
+    .selfdate{
+        margin: 0px 10px!important;
+    }
+    .mt-3, .my-3 {
+        margin-top: 0px!important;
+    }
+
+    .card {
+        border: 0px solid rgba(0, 0, 0, 0.125);
+    }
+
+    .card-body {
+        padding: 1px 5px!important;
+    }
+
+    .mobileForm{
+        padding: 0px 10px!important;
+    }
+    .bg-light {
+        background: white!important;
+    }
+
+    .mobileMOP{
+      text-align: center;
+      margin: 0px 10px;
+    }
+
+    .alert {
+        right: 0 !important;
+        left: 0!important;
+        max-width: 100% !important;
+        margin: 9px 12px!important;
+    }
+}
+
+.mobileMOP{
+    text-align: left;
+    margin: 10px 8px;
+}   
+
+
+.mobileForm111{    
+    padding: 0px 10px!important;
+}
+
+.form-control111 {
+    height: 40px!important;    
+    padding: 0px 5px;
+}
+.checkout-page .checkout-form select, .checkout-page .checkout-form textarea {
+    height: 36px !important;
+    padding: 3px 10px !important;
+    border-radius: 11px;
+}
+.checkout-page .checkout-form input[type="number"], .checkout-form input[type="text"], .checkout-page .checkout-form input[type="email"], .checkout-page .checkout-form input[type="password"], .checkout-page .checkout-form input[type="tel"], .checkout-page .checkout-form input[type="number"], .checkout-page .checkout-form input[type="url"] {
+    padding: 0px 5px!important;
+    border-radius: 11px;
+}
+
+a {
+    color: #1f2021!important;
+}
+.form-check-label {
+    color: #212529 !important;
+    font-size: 12px!important;
+}
+
+.checkout-page .checkout-form .form-group {
+    margin-bottom: 0px!important;
+    margin: 5px 0px;
+}

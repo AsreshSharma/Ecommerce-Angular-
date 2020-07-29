@@ -1,0 +1,9 @@
+.onlymobile{
+    display: none!important;
+}
+
+@media (max-width: 577px){
+    .onlymobile{
+        display: inline!important;
+    }
+}

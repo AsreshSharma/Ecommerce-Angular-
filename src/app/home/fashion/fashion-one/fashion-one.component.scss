@@ -1,0 +1,139 @@
+
+section, .section-t-space {
+    padding-top: 0px;
+    padding: 5px 0px;
+}
+.section-b-space {
+    padding-bottom: 0px;
+    padding: 5px 0px;
+}
+
+@media (min-width: 768px){
+    .col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+        margin-bottom: 5px;
+    }
+}
+
+@media (max-width: 767px){
+    .partition2 > div {
+        margin-bottom: 5px;
+    }
+}
+
+@media (max-width: 577px){
+    .section-t-space {
+        padding-top: 40px;
+        padding-bottom: 25px;
+    }
+
+}
+
+@media (max-width: 1199px){
+    .title1 .title-inner1 {
+        padding-bottom: 2px;
+        margin-bottom: 5px;
+    }
+}
+@media (max-width: 991px){
+    .section-b-space {
+        padding-bottom: 10px;
+    }
+}
+
+
+
+
+
+// mobile css use
+
+.mobileCategoryActive{
+    display: none;
+}
+@media (max-width: 577px){
+    .mobileCategory{
+        display: none;
+    }
+    .mobileCategoryActive{
+        display: inline;
+    }
+
+    h3 {
+        padding-top: 5px;
+        font-size: 10px;
+        font-weight: 400;
+        color: #777777;
+        letter-spacing: 0.03em;
+        text-align:center;
+    }
+      
+      .thumbnail {
+        padding: 4px;
+        line-height: 1.42857143;
+        border: 1px solid #fff;
+        border-radius: 4px;
+        margin-bottom: 2px;
+        box-shadow: -6px 8px 13px 6px #ddd;
+        border-radius: 9px;
+        margin-bottom: 5px;
+      }
+      
+      .text-center {
+        text-align: center;
+      }
+      
+      .image {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .col-4{          
+        padding-right: 8px;
+        padding-left: 6px;
+      }
+
+      .col-6{
+        padding-right: 4px;
+        padding-left: 4px;
+    }
+    h4 {
+        font-size: 12px!important;
+    }
+    h2 {
+        font-size: 15px!important;
+    }
+    .title1 .title-inner1 {
+        padding-bottom: 10px!important;
+    }
+    
+    .border-section {
+        border-top: 0px!important;
+        border-bottom: 0px!important;
+    }
+    .tap-top .top-cls{
+        display: none!important;
+    }
+
+    .p-0{
+        padding: 5px!important;
+    }
+
+}
+
+input:focus, input.form-control:focus {
+    outline:none !important;
+    outline-width: 0 !important;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    border-color: #ced4da;
+}
+
+
+.tap-top .top-cls{
+    display: block!important;
+}

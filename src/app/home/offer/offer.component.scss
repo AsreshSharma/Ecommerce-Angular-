@@ -1,0 +1,47 @@
+
+@media (min-width: 768px){
+    .col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+        margin-bottom: 5px;
+    }
+}
+
+@media (max-width: 767px){
+    .partition2 > div {
+        margin-bottom: 5px;
+    }
+}
+
+@media (max-width: 577px){
+    .section-b-space {
+        padding-bottom: 0px;
+    }
+
+}
+
+@media (max-width: 1199px){
+    .title1 .title-inner1 {
+        padding-bottom: 2px;
+        margin-bottom: 5px;
+    }
+}
+@media (max-width: 991px){
+    .section-b-space {
+        padding-bottom: 10px;
+    }
+}
+
+@media (max-width: 991px){
+    section, .section-t-space {
+        padding-top: 10px;
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 2400px){
+    section, .section-t-space {
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+}

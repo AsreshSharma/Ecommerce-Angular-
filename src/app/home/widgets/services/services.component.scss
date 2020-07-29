@@ -1,0 +1,19 @@
+.swp{
+    display: inline;
+}
+.smp{
+    display: none;
+}
+
+@media (max-width: 577px){
+    .swp{
+        display: none;
+    }
+    .smp{
+        display: inline;
+    }
+    .border-section {
+        border-top: 0px!important;
+        border-bottom: 0px!important;
+    }
+}

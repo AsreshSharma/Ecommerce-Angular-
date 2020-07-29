@@ -1,0 +1,183 @@
+  
+  <!-- Web view -->
+  
+  <div *ngIf="!loader" class="productMobile">
+    <div class="img-wrapper" >
+      <!-- 
+        <div class="lable-block">
+          <span class="lable3" *ngIf="product.new">new</span>
+          <span class="lable4" *ngIf="product.sale">on sale</span>
+        </div>
+      -->
+      <div class="front">
+        <!--   
+          {{product|json}}
+          KKKKKHHHHH
+          {{ product.images[0].src}}
+        --> 
+        <a [routerLink]="['/shop/product/left/sidebar/', product.title.replace(' ', '-')]">
+          <img 
+            [defaultImage]="ImageSrc ? ImageSrc : 'assets/images/product/placeholder.jpg'" 
+            [lazyLoad]="ImageSrc ? ImageSrc : product.images[0].src" 
+            class="img-fluid lazy-loading" 
+            alt="{{ product.images[0].alt }}" />
+        </a>
+      </div>
+      <!--  
+        <div class="back" *ngIf="onHowerChangeImage">
+          <a [routerLink]="['/shop/product/left/sidebar/', product.title.replace(' ', '-')]">
+            <img [src]="ImageSrc ? ImageSrc : product.images[1].src" class="img-fluid lazy-loading" alt="{{ product.images[1].alt }}">
+          </a>
+        </div>
+        <ul class="product-thumb-list" *ngIf="thumbnail">
+          <li class="grid_thumb_img" [class.active]="ImageSrc == image.src" *ngFor="let image of product.images">
+            <a href="javascript:void(0)" (mouseover)="ChangeVariantsImage(image.src)">
+              <img [lazyLoad]="image.src">
+            </a>
+          </li>
+        </ul>
+      -->
+
+
+      <div class="cart-info cart-wrap" style="display: none;">
+        <a class="btn btn-sm" href="javascript:void(0)" title="Add to cart" (click)="CartModal.openModal(product)"
+          *ngIf="cartModal">
+          <i class="ti-shopping-cart"></i>
+        </a>
+        <a class="btn btn-sm" href="javascript:void(0)" title="Add to cart" (click)="addToCart(product)"
+          *ngIf="!cartModal">
+          <i class="ti-shopping-cart"></i>
+        </a>
+      <!-- <a href="javascript:void(0)" title="Add to Wishlist" (click)="addToWishlist(product)">
+          <i class="ti-heart" aria-hidden="true"></i>
+        </a>-->
+        <a href="javascript:void(0)" title="Quick View" (click)="QuickView.openModal()">
+          <i class="ti-search" aria-hidden="true"></i>
+        </a>
+        <!--<a href="javascript:void(0)" title="Compare" (click)="addToCompare(product)">
+          <i class="ti-reload" aria-hidden="true"></i>
+        </a>-->
+      </div>
+
+      <div class="row" style="margin-top: 2px;margin-right: 0px;margin-left: 0px;">
+        <div class="col-12 col-md-12 selfproduct1" *ngFor="let pro of products" >
+          <div class="input-group mb-3" *ngIf="pro.id==product.id">
+            <div class="input-group-prepend" (click)="decrement(product)">
+              <span class="input-group-text"><i class="ti-angle-left"></i></span>
+            </div>
+            <input type="text" name="quantity" class="form-control" disabled [(ngModel)]="pro.quantity" style="text-align: center;">
+            <div class="input-group-append" (click)="increment(product)">
+              <span class="input-group-text"><i class="ti-angle-right"></i></span>
+            </div>
+          </div>          
+        </div>
+        
+        <div clas="col-12 col-md-12" *ngIf="checkqty_tocart(product?.id)">
+          <a 
+            class="btn btn-sm btn-solid" 
+            href="javascript:void(0)" 
+            title="Add to cart" 
+            (click)="addToCart(product)"
+            >
+            Add to cart
+          </a>                 
+          <!--
+          <a class="btn btn-sm btn-solid" href="javascript:void(0)" title="Quick View" (click)="QuickView.openModal()">
+            Quick View
+          </a>
+          --> 
+        </div>
+      </div>
+    </div>
+
+    <div class="product-detail">
+      <div [routerLink]="['/shop/product/left/sidebar/', product.title.replace(' ', '-')]">
+        <bar-rating [(rate)]="product.rate" [readOnly]="true"></bar-rating>
+        <!-- <bar-rating [rate]="5" [readOnly]="true"></bar-rating> -->
+        <a [routerLink]="['/shop/product/left/sidebar/', product?.title.replace(' ', '-')]">
+          <h6>{{ product?.title | titlecase }}</h6>
+        </a>
+        <p>{{ product?.description }}</p>
+        <h4>
+          {{ product?.price * currency?.price | discount:product | currency:currency?.currency:'symbol' }}
+          <del *ngIf="product?.mrp >= 1">
+            <span class="money"> 
+              {{ product?.mrp | currency:currency?.currency:'symbol' }}
+            </span>
+            
+            <!-- <span class="money">{{ product?.price * currency?.price | currency:currency?.currency:'symbol' }} </span> -->
+          </del>
+          <span class="money" style="font-size: 10px;color: #ff4c3b;" *ngIf="product?.mrp >= 1"> 
+            &nbsp; {{ product?.mrp - product?.price | currency:currency?.currency:'symbol' }}
+          </span>
+        </h4>
+      <!-- <ul class="color-variant" *ngIf="Color(product?.variants).length">
+          <li [class]="color" *ngFor="let color of Color(product?.variants)" [ngStyle]="{'background-color': color}"
+            (click)="ChangeVariants(color, product)">
+          </li>
+        </ul>-->
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- mobile view -->
+  <div *ngIf="!loader" class="productMobileActive">
+    <div class="img-wrapper" style="overflow: inherit!important">
+      <div class="row" style="padding: 0px 5px;">
+        <div class="col-4">          
+          <a [routerLink]="['/shop/product/left/sidebar/', product.title.replace(' ', '-')]">
+            <img 
+              [defaultImage]="ImageSrc ? ImageSrc : 'assets/images/product/placeholder.jpg'" 
+              [lazyLoad]="ImageSrc ? ImageSrc : product.images[0].src" 
+              class="img-fluid lazy-loading" 
+              alt="{{ product.images[0].alt }}" />
+          </a>
+        </div>
+        <div class="col-6" [routerLink]="['/shop/product/left/sidebar/', product.title.replace(' ', '-')]">
+          <div class="row">        
+            <div class="col-12">
+              <h6>{{ product?.title | titlecase }}</h6>
+              <p>
+                {{ product?.price * currency?.price | discount:product | currency:currency?.currency:'symbol' }}
+                <del *ngIf="product?.mrp >= 1">
+                  <span class="money"> 
+                    {{ product?.mrp | currency:currency?.currency:'symbol' }}
+                  </span> 
+                </del>
+                <br>
+                <span class="money" style="font-size: 10px;color: #ff4c3b;" *ngIf="product?.mrp >= 1"> 
+                  &nbsp; Save {{ product?.mrp - product?.price | currency:currency?.currency:'symbol' }}
+                </span>
+              </p>              
+            </div>   
+          </div>
+        </div>
+        
+        <div class="col-2" style="padding: 0px;">             
+            <a 
+              class="btn btn-solid" 
+              href="javascript:void(0)" 
+              title="Add to cart" 
+              (click)="addToCart(product)"
+            >
+            <i class="ti-plus"></i>
+            </a>        
+            <a 
+              class="btn btn-solid" 
+              href="javascript:void(0)" 
+              title="Quick View" 
+              (click)="QuickView.openModal()">
+              <i class="ti-search"></i>
+            </a>
+        </div>
+      </div>
+    </div>    
+  </div>
+
+
+  <app-skeleton-product-box *ngIf="loader"></app-skeleton-product-box>
+  <app-quick-view #quickView [product]="product" [currency]="currency"></app-quick-view>
+  <app-cart-modal #cartModal [product]="product" [currency]="currency" *ngIf="cartModal"></app-cart-modal>
+

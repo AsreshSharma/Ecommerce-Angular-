@@ -1,0 +1,431 @@
+<app-breadcrumb [title]="'Checkout'" [breadcrumb]="'Checkout'" class="headerhiddenmobile"></app-breadcrumb>
+<section class="section-b-space">
+    <div class="container padding-cls">
+        <div class="checkout-page">
+            <div class="checkout-form">
+                <form>
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-12 col-xs-12">                            
+                            <div class="checkout-details table table-responsive">
+                                <table class="table" *ngIf='products.length'>
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Price</th>
+                                            <th>Tax</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="font-size: 12px;" *ngFor="let product of products">
+                                            <td>
+                                                {{ product.quantity }} x {{ product.title }}
+                                            </td>
+                                            <td>
+                                                {{ product.price_new | currency:productService?.Currency.currency:'symbol' }}
+                                            </td>
+                                            <td>
+                                                {{ (((product.price_new * product.quantity)* product.hsn)/100) * productService?.Currency.price | currency:productService?.Currency.currency:'symbol' }}
+                                                <br>
+                                                {{ product.hsn }} %
+                                            </td>
+                                            <td>
+                                                {{ (product.price * product.quantity ) | currency:productService?.Currency.currency:'symbol' }}
+                                            </td>
+                                        </tr>
+                                        <tr style="font-weight: bold; font-size: 16;">
+                                            <td>Sub Total ({{ subqty }})</td>
+                                            <td> &nbsp; </td>
+                                            <td>{{ totalTax | currency:productService?.Currency.currency:'symbol' }}</td>
+                                            <td>{{ finalamt | currency:productService?.Currency.currency:'symbol' }}</td>
+                                        </tr>
+                                        <tr style="font-weight: bold; font-size: 16;" *ngIf="couponStatus==0 && isLogin">
+                                            <td style="vertical-align: inherit;"> 
+                                                <span>Apply Coupon </span>
+                                            </td>                                            
+                                            <td colspan="2" style="vertical-align: inherit;"> 
+                                                <input type="text"  [(ngModel)]="couponcode" name="couponcode" placeholder="" />
+                                            </td>
+                                            <td style="vertical-align: inherit;">
+                                                <button style="margin: 5px 0px;" class="btn btn-sm btn-success" (click)="applycode()">Apply</button>
+                                            </td>  
+
+                                        </tr>
+                                        
+                                        <tr style="font-weight: bold; font-size: 16;" *ngIf="couponStatus==1">
+                                            <td colspan="3" style="vertical-align: inherit;"> 
+                                                <span style="color: red;">Coupon Applied Rs.{{couponapplyamt}}</span>
+                                                <p style="border: 1px dotted red;padding: 10px;">
+                                                    {{ couponcode }} 
+                                                </p>
+                                            </td>
+                                            <td style="vertical-align: inherit;">
+                                                <span class="btn btn-sm btn-danger" class="fa fa-close" (click)="removeCouponcode();"></span>
+                                            </td>
+
+                                        </tr>
+
+                                        <tr style="font-weight: bold; font-size: 16;" *ngIf="couponStatus==1">
+                                            <td>Final Amount</td>
+                                            <td colspan="2"> &nbsp; </td>
+                                            <td>{{ (finalamt-couponapplyamt) | currency:productService?.Currency.currency:'symbol' }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            
+
+                            <div class="checkout-details" style="display: none;">
+                                <div class="order-box">
+                                    <div class="title-box">
+                                        <div>Product <span> Total</span></div>
+                                    </div>
+                                    <ul class="qty" *ngIf='products.length'>
+                                        <li *ngFor="let product of products">
+                                            {{ product.title }} × {{ product.quantity }}
+                                            <span>
+                                                {{ (product.price | discount:product) * productService?.Currency.price | currency:productService?.Currency.currency:'symbol' }}
+                                            </span>
+                                        </li>
+                                    </ul>
+                                    <ul class="qty" *ngIf='!products.length'>
+                                        <li class="empty-checkout"> There are no products in cart </li>
+                                    </ul>
+                                    <ul class="sub-total">
+                                        <li>
+                                            Sub total <span
+                                                class="count">{{ getTotal | async | currency:productService?.Currency.currency:'symbol'}}</span>
+                                        </li>
+                                        <li *ngIf='products.length' style="display: none;">
+                                            Shipping
+                                            <div class="shipping">
+                                                <div class="shopping-option">
+                                                    <input type="radio" name="shipping" checked="checked"
+                                                        id="free-shipping">
+                                                    <label for="free-shipping">Shipping</label>
+                                                </div>
+                                                <div class="shopping-option">
+                                                    <input type="radio" name="shipping" id="local-pickup">
+                                                    <label for="local-pickup">Local Pickup</label>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <ul class="total">
+                                        <li>Total <span
+                                                class="count">{{ getTotal | async | currency:productService?.Currency.currency:'symbol'}}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="payment-box" *ngIf='products.length' style="display: none;">
+                                    <div class="upper-box">
+                                        <div class="payment-options">
+                                            <ul>
+                                                <li>
+                                                    <div class="radio-option">
+                                                        <input type="radio" [(ngModel)]="payment" [value]="'Stripe'"
+                                                            name="payment-group" id="payment-2">
+                                                        <label for="payment-2">Stripe
+                                                            <span class="small-text">Please send a check to Store Name,
+                                                                Store Street, Store Town, Store State / County, Store
+                                                                Postcode.</span></label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="radio-option paypal">
+                                                        <input type="radio" [(ngModel)]="payment" [value]="'Paypal'"
+                                                            name="payment-group" id="payment-3">
+                                                        <label for="payment-3">PayPal<span class="image"><img
+                                                                    src="assets/images/paypal.png"
+                                                                    alt="" /></span></label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!--    
+                                    <div class="text-right">
+                                        <button type="submit" class="btn-solid btn" [disabled]="!checkoutForm.valid"
+                                            (click)="stripeCheckout()" *ngIf="payment == 'Stripe'">
+                                            Place Order
+                                        </button>
+                                        <ngx-paypal [config]="payPalConfig" *ngIf="payment == 'Paypal'"></ngx-paypal>
+                                    </div>
+                                    -->
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- start process to billing to finishing part -->
+                        <div class="col-lg-6 col-sm-12 col-xs-12" *ngIf="!isLogin">
+                            <div class="p-3 mb-2 bg-warning text-dark">
+                                <h6 style="text-align: center;color: #212529;">
+                                You Are Not Logged in!. 
+                                    <br>
+                                    Login / Signup to Continue Order Process                                
+                                    </h6>
+                            </div>
+                            <div class="row" style="margin: 0px 10px;">
+                                <a routerLink="/pages/login" class="col-5 col-md-5 btn btn-solid roundbtn" style="text-align: center;">Login</a>
+                                <a class="col-1 col-md-2" href="javascript:void(0);">&nbsp;</a>
+                                <a routerLink="/pages/register" class="col-5 col-md-5 btn btn-solid roundbtn" style="text-align: center;">Signup</a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-sm-12 col-xs-12" *ngIf="isLogin">
+                            <!-- check minimum amount according company wise set then decide open / close  -->
+                            <div *ngIf="showWarningForMinCartValue==false">
+                                <div class="p-3 mb-2 alert alert-danger" role="alert">
+                                    Minimum Order Amount Can't be Less than <strong> {{minCartValue | currency:productService?.Currency.currency:'symbol' }} </strong>  
+                                </div>                               
+                            </div>
+                            
+                            <div *ngIf="showWarningForMinCartValue==false" class="row" style="margin: 0px 10px;">
+                                <a routerLink="/home/fashion" class="col-12 col-md-12 btn btn-solid roundbtn" style="text-align: center;background: red;color: white!important;">Continue Shopping</a>
+                            </div>
+
+
+                            <!-- all including functinalities like as addresses,slots,mod,coupon code and wallet balance -->
+                            <div class="row check-out" *ngIf="showWarningForMinCartValue==true">
+
+                                <div class="col-md-12" style="margin:0px;">
+                                    <div class="row" style="margin: 5px 10px;">
+                                        <strong> Step - 1 : </strong> &nbsp; Select Address
+                                        <br>
+                                        <!-- address button add and change address -->
+                                        <div class="col-md-12" style="margin: 5px 0px;padding: 0px;">
+                                           <a style="text-align: right;" href="javascript:void(0)"                                              
+                                                *ngIf="!isEditModeForAddress" 
+                                                (click)="showAddressPanel()">
+                                                + New Address
+                                            </a>
+
+                                            <a  href="javascript:void(0)"
+                                                *ngIf="!isAddressSelected"
+                                                (click)="showAddressList()"
+                                                style="float: right!important;">
+                                                Change Address
+                                            </a> 
+                                        </div>
+                                        
+                                        <!-- address not found here -->
+                                        <div class="col-md-12" *ngIf="!addressList" style="padding: 0px;">                                                                             
+                                            <div class="p-3 mb-2 bg-warning text-dark">
+                                                No address found !
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- all address show here -->
+                                        <div class="col-md-12" *ngIf="isAddressSelected && addressList" style="padding: 0px;"> 
+                                            <div class="form-check" *ngFor="let address of addressList; let row_no = index" style="margin-bottom: 2px;">
+                                                <input type="radio" class="form-check-input"
+                                                    name="materialExampleRadios"
+                                                    [(ngModel)]="selectedAddress" [value]="address" (change)="confirmAddress()">
+                                                <label>
+                                                    {{address.name}}  <span style="position: absolute;right: 10px;">{{address.mobile}}</span>                                               
+                                                    <p class="card-text address-text" style="font-size: 10px; text-transform: initial;">
+                                                        {{address.address}}, 
+                                                        {{address.city}},
+                                                        {{address.state}}
+                                                    </p>
+                                                </label>
+                                            </div>       
+                                            <!-- confirmAddress()-->
+                                        </div>
+
+                                        <!-- selected address show here -->
+                                        <div class="col-md-12" *ngIf="!isAddressSelected && selectedAddress" style="padding: 0px;">                                  
+                                            <div class="form-check">
+                                                <label>
+                                                    {{selectedAddress.name}} 
+                                                    <span style="position: absolute;right: 10px;">{{selectedAddress.mobile}}</span>
+                                                    <p class="card-text address-text" style="font-size: 10px; text-transform: initial;">
+                                                        {{selectedAddress.address}},
+                                                        {{selectedAddress.city}},
+                                                        {{selectedAddress.state}}
+                                                    </p>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- add addresses -->
+                                        <div class="col-md-12" style="padding: 0px;">
+                                            <form class="mobileForm" *ngIf="isEditModeForAddress" #addressForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+                                                <h6>Add Address</h6>
+                                                <div class="row">
+                                                    <div class="col-md-12 form-group">
+                                                        <input type="text" class="form-control" placeholder="Name"
+                                                            name="firstName" [(ngModel)]="model.firstName">
+                                                    </div>
+
+                                                    <div class="col-md-12 form-group ">
+                                                        <input type="number" class="form-control"
+                                                            placeholder="Mobile Number" name="mobile"
+                                                            [(ngModel)]="model.mobile">
+                                                    </div>
+                                                    <div class="col-md-12 form-group ">   
+                                                        <textarea style="height: 70px !important;" class="form-control" placeholder="Address"
+                                                        name="addressLine1" rows="5" [(ngModel)]="model.addressLine1"></textarea>
+                                                    </div>
+
+                                                    <div class="col-md-12 form-group ">     
+                                                        <select class="form-control" name="selectedState"
+                                                            [(ngModel)]="model.state" (change)="stateChange($event.target.value)">
+                                                            <option *ngFor="let state of stateList" [value]="state.id">
+                                                                {{state.name}}</option>
+                                                        </select>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-12 form-group ">                                                        
+                                                        <select class="form-control" name="city"
+                                                        [(ngModel)]="model.city">
+                                                            <option *ngFor="let city of cityList" [value]="city.id">
+                                                                {{city.name}}</option>
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row" style="margin: 5px 0px;">
+                                                    <div class="col-6 col-md-6">
+                                                        <button 
+                                                        style="
+                                                        border-radius: 15px;
+                                                        padding: 5px 20px;
+                                                        background: red;"
+                                                        type="submit" class="btn btn-solid btn-primary btn-sm">Save</button>
+                                                    </div>
+                                                    <div class="col-6 col-md-6">
+                                                        <button 
+                                                        style="
+                                                        border-radius: 15px;
+                                                        padding: 5px 18px;
+                                                        background: red;"
+                                                        class="btn btn-solid btn-info btn-sm" (click)="closeAddressPanel()">Close</button>
+                                                    </div>
+                                                </div>                                                
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+
+
+                                <div class="col-md-12" style="margin: 0px 0px;padding: 0px 25px;">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <strong>Step - 2 :</strong> Ordering Method 
+                                            <div class="row mobileMOP">
+                                                <div class="col-6 col-md-6" *ngFor="let ordering of orderingMethodOptions;">
+                                                    <span *ngIf="orderAcceptingMethods=='1,2' || orderAcceptingMethods=='2,1'">
+                                                        <input type="radio" class="form-check-input" 
+                                                         name="orderingMethod" [(ngModel)]="orderingMethodObj" value="{{ordering.code}}" (change)="onOrderingChange(ordering.code)">
+                                                        <label class="form-check-label">{{ordering.desc}}</label>
+                                                    </span>
+                                                    <span *ngIf="orderAcceptingMethods==ordering.code || orderAcceptingMethods==ordering.code">
+                                                        <input 
+                                                         type="radio" 
+                                                         class="form-check-input" 
+                                                         name="orderingMethod"
+                                                         [checked]="orderingMethodObj==ordering.code"
+                                                         [(ngModel)]="orderingMethodObj" 
+                                                         value="{{ordering.code}}" 
+                                                         (change)="onOrderingChange(ordering.code)"
+                                                         >
+                                                        <label class="form-check-label">{{ordering.desc}}</label>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12" *ngIf="isSchedule > 0">
+                                            <h6>Select Scheduled Date & Slot</h6>
+                                            <!-- choose date then filter slots -->
+                                            <div class="row" style="margin-top: 10px;">
+                                                <div class="col-9 col-md-9 form-group" *ngIf="isSlotSelected">
+                                                    <input 
+                                                        style="height: 30px; font-size: 12px;"
+                                                        type="date"
+                                                        [(ngModel)]="bsSelectedValue"
+                                                        (ngModelChange)="onCalendarValueChange($event)"
+                                                        class="form-control" 
+                                                        name="bsSelectedValue" 
+                                                        min="{{ backdate }}" min="{{ backdate }}">
+                                                </div>
+                                                <div class="col-3 col-md-3 form-group" *ngIf="isSlotSelected" (click)="changeSlot()">
+                                                    Change
+                                                </div>
+
+                                                <div class="col-12 col-md-12 form-group" *ngIf="!isSlotSelected">
+                                                    <input 
+                                                        style="height: 30px; font-size: 12px;"
+                                                        type="date"
+                                                        [(ngModel)]="bsSelectedValue"
+                                                        (ngModelChange)="onCalendarValueChange($event)"
+                                                        class="form-control" 
+                                                        name="bsSelectedValue" 
+                                                        min="{{ backdate }}" height="38px">
+                                                </div>
+                                            </div>
+
+                                            <!-- all slots list here -->
+                                            <div class="row" *ngIf="!isSlotSelected" style="margin: 10px 0px;">
+                                                <div class="col-6 col-md-6 form-check" *ngFor="let slot of slotsList; let row_no = index">
+                                                    <input type="radio" class="form-check-input"
+                                                        name="slotDetails" [(ngModel)]="selectedSlot"
+                                                        [value]="slot" (change)="confirmSlots()">
+                                                    <label class="form-check-label">{{slot.start_time}} -
+                                                        {{slot.end_time}}</label>
+                                                </div>                                        
+                                                <!-- confirmSlots() -->
+                                            </div>
+                                            
+                                            <!-- selected slot here -->
+                                            <div  class="row" *ngIf="isSlotSelected && selectedSlot" style="margin: 10px 0px;">
+                                                <label class="form-check-label">
+                                                    {{selectedSlot.start_time}} - {{selectedSlot.end_time}}
+                                                </label>
+                                            </div> 
+                                        </div>                                        
+                                    </div> 
+                                </div>
+                                
+                                <div class="col-md-12" style="margin: 0px 0px;padding: 0px 25px;">
+                                    
+                                    <strong>Step - 3 :</strong> Select Payment Mode
+                                    <br>
+                                    <!-- all mode of payment choose you pay amount -->
+                                    <div class="row mobileMOP">
+                                        <div class="col-6 col-md-6" *ngFor="let payment of paymentMethodOptions; let row_no = index">
+                                            <input type="radio" class="form-check-input" 
+                                                name="paymentMethod" [(ngModel)]="paymentMethodObj" [value]="payment">
+                                            <label class="form-check-label">{{payment.desc}}</label>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- *ngIf="showPayment" -->
+                                    <!-- save appoinment data -->
+                                    <div class="" style="margin-top: 15px;text-align: center;">
+                                        <button 
+                                            style="border-radius: 20px;padding: 9px;background: red;"
+                                            type="button"                                              
+                                            class="btn btn-danger btn-sm" 
+                                            (click)="placeOrder()">
+                                            Confirm Payment
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- end process to billing to finishing part -->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

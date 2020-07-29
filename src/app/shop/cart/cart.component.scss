@@ -1,0 +1,36 @@
+.webpage{
+    display: inline;
+}
+.mobilewebpage{
+    display: none;
+}
+
+@media (max-width: 577px){
+    .webpage{
+        display: none!important;
+    }
+    .mobilewebpage{
+        display: inline!important;
+    }
+    .input-group > .form-control:not(:first-child), .input-group > .custom-select:not(:first-child) {
+        height: 30px!important;
+    }
+    .input-group > .input-group-prepend:not(:first-child) > .btn{
+        height: 30px!important;
+        border: 1px solid #ced4da!important;
+    }
+    .input-group > .input-group-prepend > .btn{
+        height: 30px!important;
+        border: 1px solid #ced4da!important;
+    }
+    .mobileAt {
+        display: none!important;
+    }
+    section, .section-t-space {
+        padding-top: 0px!important;
+    }
+
+    .qty-box .input-group .form-control {
+        width: 50px!important;
+    }
+}

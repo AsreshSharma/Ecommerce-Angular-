@@ -1,0 +1,120 @@
+
+<app-breadcrumb [title]="'Contact'" [breadcrumb]="'Contact'"></app-breadcrumb>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+<!--section start-->
+<section class=" contact-page section-b-space">
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-12 col-md-6">
+                <p [innerHtml]="result"></p>
+            </div>
+
+            <div class="col-12 col-md-6" style="display: none;"> 
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3666.168134275769!2d77.43212831490187!3d23.236967984844977!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x397c426672b3ffff%3A0x48dac9526b6d559b!2sVias%20Group%20I%20BULK%20SMS%20PROVIDER%20I%20WEBSITE%20DESIGNING%20I%20E-COMMERCE%20I%20FACEBOOK%20MARKETING!5e0!3m2!1sen!2sin!4v1594798114985!5m2!1sen!2sin" width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            </div>
+
+            <div class="col-12 col-md-6">                
+                <div class="contact-right">
+                    <ul>
+                        <li>
+                            <div class="contact-icon">
+                                <img src="assets/images/icon/phone.png" alt="Generic placeholder image">
+                                <h6>Contact Us</h6>
+                            </div>
+                            <div class="media-body">
+                                <p>+91 {{ cmpInfo.mobile }}</p>
+                                <p>{{ cmpInfo.email }}</p>
+                                <p>{{ cmpInfo.website }}</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="contact-icon">
+                                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                <h6>Address</h6>
+                            </div>
+                            <div class="media-body">
+                                <p>{{ cmpInfo.address }}</p>
+                                <p>{{ cmpInfo.city }}, {{ cmpInfo.state }}, India</p>
+                            </div>
+                        </li>
+                        <!-- 
+                        <li>
+                            <img src="{{ cmpInfo.logo }}" class="img-responsive logocontact" alt="Logo" />
+                        </li>
+                        -->
+                        <li>      
+                            <div class="contact-icon">
+                                <h6>&nbsp;</h6>
+                            </div>
+                            <div class="media-body">                      
+                                <a *ngIf="cmpInfo.facebook" href="{{ cmpInfo.facebook }}" class="fa fa-facebook" target="_blank"></a>
+                                <a *ngIf="cmpInfo.youtube" href="{{ cmpInfo.youtube }}" class="fa fa-youtube" target="_blank"></a>
+                                <a *ngIf="cmpInfo.twitter" href="{{ cmpInfo.twitter }}" class="fa fa-twitter" target="_blank"></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <!--
+        <div class="row section-b-space" style="display: none;">
+            <div class="col-lg-7 map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d50059.12775918716!2d72.78534673554945!3d21.16564923510817!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1533793756956"   allowfullscreen></iframe>
+            </div>
+            <div class="col-lg-12">
+                <div class="contact-right">
+                    <ul>
+                        <li>
+                            <div class="contact-icon">
+                                <img src="assets/images/icon/phone.png" alt="Generic placeholder image">
+                                <h6>Contact Us</h6>
+                            </div>
+                            <div class="media-body">
+                                <p>+91 123 - 456 - 7890</p>
+                                <p>+86 163 - 451 - 7894</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="contact-icon">
+                                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                <h6>Address</h6>
+                            </div>
+                            <div class="media-body">
+                                <p>ABC Complex,Near xyz, New York</p>
+                                <p>USA 123456</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="contact-icon">
+                                <img src="assets/images/icon/email.png" alt="Generic placeholder image">
+                                <h6>Address</h6>
+                            </div>
+                            <div class="media-body">
+                                <p>Support@Shopcart.com</p>
+                                <p>info@shopcart.com</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="contact-icon">
+                                <i class="fa fa-fax" aria-hidden="true"></i>
+                                <h6>Fax</h6>
+                            </div>
+                            <div class="media-body">
+                                <p>Support@Shopcart.com</p>
+                                <p>info@shopcart.com</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        -->
+    </div>
+</section>
+<!--Section ends-->

@@ -1,0 +1,20 @@
+.search-block {
+    padding: 0px 0!important;
+}
+.section-b-space {
+    padding-bottom: 0px!important;
+}
+
+.headerhiddenmobile {
+    display: inline!important;
+}
+
+@media (max-width: 577px){
+    .headerhiddenmobile {
+        display: none!important;
+    }
+    
+    section, .section-t-space {
+        padding-top: 0px!important;
+    }
+}
