@@ -99,10 +99,10 @@ header {
                             font-size: 14px;
                             font-weight: 400;
                             text-transform: capitalize;
-                            padding: 5px 35px;
+                            padding: 5px 5px;
                             display: block;
                             letter-spacing: 0.07em;
-                            line-height: 1.9;
+                            line-height: 1.2;
                             &:before {
                                 position: absolute;
                                 bottom: 0;
@@ -317,7 +317,7 @@ header {
                 text-align: left;
                 float: none;
                 a {
-                    padding: 10px 50px 20px 40px;
+                    padding: 5px 25px 5px 25px;
                     position: relative;
                     color: #222222;
                     font-size: 14px;
@@ -1068,7 +1068,7 @@ header {
             .sidebar-menu {
                 li {
                     a {
-                        padding: 10px 25px;
+                        padding: 3px 18px;
                         font-weight: 700;
                         .sub-arrow {
                             position: absolute;

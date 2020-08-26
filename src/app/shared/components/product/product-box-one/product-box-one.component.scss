@@ -22,5 +22,82 @@
         color: black;
         line-height: 24px;
     }
+
+    .specialBTN .btn-solid, .btn-outline { 
+        padding: 0px 14px;
+        text-transform: capitalize;
+        border-radius: 26px;
+    }
+    
+    p {
+        margin-top: 0;
+        margin-bottom: 2px;
+    }
+
+    .ti-minus:before {
+        font-size: 10px;
+        padding: 0px;
+    }
+
+    .ti-plus:before {
+        font-size: 10px;
+        padding: 0px;
+    }
+    
+    .ti-close:before {
+        font-size: 10px;
+        padding: 0px;
+    }
+    .selfIcons{
+        position: absolute;
+        top: 0px;
+        bottom: 5px;
+        right: 8px;
+    }
+
+    .ti-minus:before {
+        content: "\e622";
+        font-size: 15px;
+        // position: absolute;
+        // top: 6px;
+        // left: 8px;
+    }
+    .ti-plus:before {
+        content: "\e61a";
+        font-size: 15px;
+        // position: absolute;    
+        // right: 8px;
+        // top: 6px;
+    }
+    .input-group-text {
+        height: 25px;
+        border-radius: 50%;
+        padding: 4px;
+    }
 }
 
+
+.input-group > .input-group-prepend > .btn, .input-group > .input-group-prepend > .input-group-text, .input-group > .input-group-append:not(:last-child) > .btn, .input-group > .input-group-append:not(:last-child) > .input-group-text, .input-group > .input-group-append:last-child > .btn:not(:last-child):not(.dropdown-toggle), .input-group > .input-group-append:last-child > .input-group-text:not(:last-child) {
+    border-radius: 50px!important;
+    font-size: 15px!important;
+    margin: 2px 0px!important;
+    height: 40px!important;
+    font-weight: bold!important;
+}
+
+.input-group > .input-group-append > .btn, .input-group > .input-group-append > .input-group-text, .input-group > .input-group-prepend:not(:first-child) > .btn, .input-group > .input-group-prepend:not(:first-child) > .input-group-text, .input-group > .input-group-prepend:first-child > .btn:not(:first-child), .input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child) {
+    border-radius: 50px!important;
+    font-size: 15px!important;
+    margin: 2px 0px!important;
+    height: 40px!important;
+    font-weight: bold!important;
+}
+
+.webqty{
+    width: 40px!important;
+    border: 0px solid!important;
+    text-align: center!important;
+    background: none!important;
+    font-size: 18px!important;
+    font-weight: 100!important;
+}

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {apiConfig} from '../../config/APIConfig'
+import {apiConfig} from '../../config/APIConfig';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -148,4 +148,22 @@ export class CommonAPIService {
   productSearch(requestBody):Observable<any> {    
     return this.http.post<any>(apiConfig.productSearch,requestBody);
   }
+  
+  deliverychargesapply(requestBody):Observable<any> {    
+    return this.http.post<any>(apiConfig.deliverychargesapply,requestBody);
+  }
+
+  
+  get_otp(requestBody):Observable<any> {    
+    return this.http.post<any>(apiConfig.get_otp,requestBody);
+  }
+
+  verify_otp(requestBody):Observable<any> {    
+    return this.http.post<any>(apiConfig.verify_otp,requestBody);
+  }  
+
+  create_password(requestBody):Observable<any> {    
+    return this.http.post<any>(apiConfig.create_password,requestBody);
+  }
+  
 }

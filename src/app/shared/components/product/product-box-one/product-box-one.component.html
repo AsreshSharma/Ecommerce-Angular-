@@ -60,14 +60,17 @@
       </div>
 
       <div class="row" style="margin-top: 2px;margin-right: 0px;margin-left: 0px;">
-        <div class="col-12 col-md-12 selfproduct1" *ngFor="let pro of products" >
-          <div class="input-group mb-3" *ngIf="pro.id==product.id">
-            <div class="input-group-prepend" (click)="decrement(product)">
-              <span class="input-group-text"><i class="ti-angle-left"></i></span>
+        <div class="col-12 col-md-12 selfproduct1" *ngFor="let pro of products" style="padding: 0px;">
+          <div class="input-group" *ngIf="pro.id==product.id">            
+            <div *ngIf="pro.quantity==1" class="input-group-prepend selfweb" (click)="removeItem(product)">
+              <span class="input-group-text"><i class="ti-minus"></i></span>
             </div>
-            <input type="text" name="quantity" class="form-control" disabled [(ngModel)]="pro.quantity" style="text-align: center;">
-            <div class="input-group-append" (click)="increment(product)">
-              <span class="input-group-text"><i class="ti-angle-right"></i></span>
+            <div *ngIf="pro.quantity > 1" class="input-group-prepend selfweb" (click)="decrement(product)">
+              <span class="input-group-text"><i class="ti-minus"></i></span>
+            </div>
+            <input type="text" name="quantity" class="webqty" disabled [(ngModel)]="pro.quantity" >
+            <div class="input-group-append selfweb" (click)="increment(product)">
+              <span class="input-group-text"><i class="ti-plus"></i></span>
             </div>
           </div>          
         </div>
@@ -80,12 +83,7 @@
             (click)="addToCart(product)"
             >
             Add to cart
-          </a>                 
-          <!--
-          <a class="btn btn-sm btn-solid" href="javascript:void(0)" title="Quick View" (click)="QuickView.openModal()">
-            Quick View
-          </a>
-          --> 
+          </a>     
         </div>
       </div>
     </div>
@@ -93,29 +91,21 @@
     <div class="product-detail">
       <div [routerLink]="['/shop/product/left/sidebar/', product.title.replace(' ', '-')]">
         <bar-rating [(rate)]="product.rate" [readOnly]="true"></bar-rating>
-        <!-- <bar-rating [rate]="5" [readOnly]="true"></bar-rating> -->
         <a [routerLink]="['/shop/product/left/sidebar/', product?.title.replace(' ', '-')]">
-          <h6>{{ product?.title | titlecase }}</h6>
+          <h4>{{ product?.title | titlecase }}</h4>
         </a>
         <p>{{ product?.description }}</p>
-        <h4>
+        <h4 style="font-weight: 100;font-size:14px;">
           {{ product?.price * currency?.price | discount:product | currency:currency?.currency:'symbol' }}
           <del *ngIf="product?.mrp >= 1">
             <span class="money"> 
               {{ product?.mrp | currency:currency?.currency:'symbol' }}
-            </span>
-            
-            <!-- <span class="money">{{ product?.price * currency?.price | currency:currency?.currency:'symbol' }} </span> -->
+            </span>  
           </del>
           <span class="money" style="font-size: 10px;color: #ff4c3b;" *ngIf="product?.mrp >= 1"> 
             &nbsp; {{ product?.mrp - product?.price | currency:currency?.currency:'symbol' }}
           </span>
         </h4>
-      <!-- <ul class="color-variant" *ngIf="Color(product?.variants).length">
-          <li [class]="color" *ngFor="let color of Color(product?.variants)" [ngStyle]="{'background-color': color}"
-            (click)="ChangeVariants(color, product)">
-          </li>
-        </ul>-->
       </div>
     </div>
   </div>
@@ -135,9 +125,9 @@
               alt="{{ product.images[0].alt }}" />
           </a>
         </div>
-        <div class="col-6" [routerLink]="['/shop/product/left/sidebar/', product.title.replace(' ', '-')]">
+        <div class="col-8">
           <div class="row">        
-            <div class="col-12">
+            <div class="col-12" [routerLink]="['/shop/product/left/sidebar/', product.title.replace(' ', '-')]">
               <h6>{{ product?.title | titlecase }}</h6>
               <p>
                 {{ product?.price * currency?.price | discount:product | currency:currency?.currency:'symbol' }}
@@ -152,10 +142,32 @@
                 </span>
               </p>              
             </div>   
+          </div>          
+          <div class="row">
+            <div class="col-12 specialBTN" *ngIf="checkqty_tocart(product?.id)">                
+              <a class="btn btn-solid" href="javascript:void(0)" title="Add to cart" 
+                (click)="addToCart(product)">
+                <i class="ti-plus"></i> Add  
+              </a>
+            </div>
+            <div class="col-12 selfproduct1" *ngFor="let pro of products">
+              <div class="input-group" *ngIf="pro.id==product.id" style="margin-top: 5px;">
+                <div *ngIf="pro.quantity==1" (click)="removeItem(product)">
+                  <span class="input-group-text"><i class="ti-minus"></i></span>
+                </div>
+                <div *ngIf="pro.quantity > 1" (click)="decrement(product)">
+                  <span class="input-group-text"><i class="ti-minus"></i></span>
+                </div>
+                <input  type="text" name="quantity" class="webqty" style="height: px;" disabled [(ngModel)]="pro.quantity">
+                <div (click)="increment(product)">
+                  <span class="input-group-text"><i class="ti-plus"></i></span>
+                </div>                  
+              </div>          
+            </div>
           </div>
-        </div>
-        
-        <div class="col-2" style="padding: 0px;">             
+        </div>        
+          <!--   
+          <div class="col-2" style="padding: 0px;">   
             <a 
               class="btn btn-solid" 
               href="javascript:void(0)" 
@@ -170,8 +182,9 @@
               title="Quick View" 
               (click)="QuickView.openModal()">
               <i class="ti-search"></i>
-            </a>
-        </div>
+            </a>       
+          </div>
+          -->           
       </div>
     </div>    
   </div>

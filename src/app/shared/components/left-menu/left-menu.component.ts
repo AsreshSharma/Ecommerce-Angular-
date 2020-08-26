@@ -13,6 +13,7 @@ export class LeftMenuComponent implements OnInit {
   public menuItems: Menu[];
   
   public headerItems: Menu[];
+  logoutStatus=0;
   constructor(private router: Router, public navServices: NavService,private commonAPIService: CommonAPIService) {
     
     this.router.events.subscribe((event) => {
@@ -28,6 +29,14 @@ export class LeftMenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
+    let cred=JSON.parse(localStorage.getItem("userInfo")); 
+    if(cred==undefined || cred==null){
+      this.logoutStatus=0;
+    }
+    else{
+      this.logoutStatus=1;
+    }
   }
 
   leftMenuToggle(): void {
@@ -92,4 +101,15 @@ export class LeftMenuComponent implements OnInit {
   closeleftMenuToggle(): void {
     this.navServices.leftMenuToggle = false;
   }
+
+
+  
+  logout(){
+    this.navServices.leftMenuToggle = false;
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userInfo");
+    localStorage.clear();
+    this.router.navigate(['/pages/login']);
+  }
+
 }

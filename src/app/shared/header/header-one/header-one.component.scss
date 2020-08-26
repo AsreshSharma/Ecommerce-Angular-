@@ -70,3 +70,16 @@ input:focus, input.form-control:focus {
     -webkit-box-shadow: none;
     border-color: #ced4da;
 }
+
+
+.searchBTNweb{
+    border-top-left-radius: 10px!important;
+    border-bottom-left-radius: 10px!important;
+    height: 38px!important;
+    border-top-right-radius: 0px!important;
+    border-bottom-right-radius: 0px!important;
+}
+.input-group-text {
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+}

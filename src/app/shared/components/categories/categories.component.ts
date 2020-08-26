@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from '../../classes/product';
 import { ProductService } from '../../services/product.service';
 import { CommonAPIService } from '../../services/common-api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-categories',
@@ -14,7 +15,8 @@ export class CategoriesComponent implements OnInit {
   public collapse: boolean = true;
   public categoryList = [];
   public companyId;
-  constructor( private commonAPIServices: CommonAPIService) { 
+  constructor( private commonAPIServices: CommonAPIService,
+    private router: Router, ) { 
 		this.companyId=localStorage.getItem("cmp_id");
   }
 
@@ -31,6 +33,11 @@ export class CategoriesComponent implements OnInit {
       this.categoryList = result.data;
       // localStorage.setItem("categoryId","3690");
     })
+  }
+
+  categoryRoute(id){        
+    localStorage.setItem("slugID",id);
+    this.router.navigate(['/shop/productList/left/sidebar/',id]);
   }
 
   public isActive(catid){

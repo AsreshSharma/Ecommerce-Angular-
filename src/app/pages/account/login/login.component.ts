@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CommonAPIService } from 'src/app/shared/services/common-api.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from "ngx-spinner";
+import { MessagingService } from 'src/app/shared/services/messaging.service';
 
 @Component({
   selector: 'app-login',
@@ -21,21 +22,28 @@ export class LoginComponent implements OnInit {
 
   public cmplogo='./assets/images/about-main2.jpg';
   public cmpid='';
+  public get_fcm_token:any='';
   constructor(
     private spinner: NgxSpinnerService,
     private router: Router, 
     private commonAPIService: CommonAPIService,
-    private toastr: ToastrService) { 
+    private toastr: ToastrService,private messagingService: MessagingService) { 
       this.cmplogo=localStorage.getItem('logo');
       this.cmpid=localStorage.getItem('cmp_id');
     }
 
   ngOnInit() {    
+    
     if(localStorage.getItem("userInfo")!=undefined || localStorage.getItem("userInfo")!=null){      
       this.router.navigate(['/dashboard']);
     }  
     // document.body.style.background="#dddada";
     document.body.className = "bg-gradient";
+    
+    this.messagingService.requestPermission();
+    this.messagingService.receiveMessage();
+    this.messagingService.currentMessage;    
+    this.get_fcm_token=localStorage.getItem('token');
   }
   
   ngOnDestroy(){
@@ -55,6 +63,7 @@ export class LoginComponent implements OnInit {
       formData.append('cmp_id', this.cmpid);
       formData.append('mobile_no', this.userId);
       formData.append('password', this.password);
+      formData.append('fcm_token',this.get_fcm_token);
       this.commonAPIService.userLogin(formData).subscribe(resp => {
         this.spinner.hide();
         if (resp && resp.status == 1 && resp.data && resp.data.id !== null && resp.data.cmp_id) {

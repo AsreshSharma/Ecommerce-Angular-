@@ -25,7 +25,8 @@ export class MenuComponent implements OnInit {
     formData.append('cmp_id', this.companyId);
     this.commonAPIServices.leftmenuheader(formData).subscribe(result => {
       if (result) {
-        this.listcategory=result[0];      
+        this.listcategory=result[0];          
+        localStorage.setItem('leftmenu',result[0]);    
         let cred=JSON.parse(localStorage.getItem("userInfo")); 
         if(cred==undefined || cred==null){
           this.menuItems=[      
@@ -87,7 +88,9 @@ export class MenuComponent implements OnInit {
   }
 
   
-  getheaderlinks(){    
+  getheaderlinks(){   
+    // let menu=localStorage.getItem('leftmenu');
+    // this.listcategory=JSON.stringify(menu);
     let cred=JSON.parse(localStorage.getItem("userInfo")); 
     if(cred==undefined || cred==null){
       // console.log('Not login customer');
@@ -128,13 +131,15 @@ export class MenuComponent implements OnInit {
     }
 
     this.companyId=localStorage.getItem("cmp_id");
-    const formData = new FormData();//946
+    const formData = new FormData();
     formData.append('cmp_id', this.companyId);
     this.commonAPIServices.leftmenuheader(formData).subscribe(result => {
       if (result) {
         this.listcategory=result[0];  
+        localStorage.setItem('leftmenu',result[0]);
       }
     });
+
   }
 
 }

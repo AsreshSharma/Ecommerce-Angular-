@@ -46,7 +46,58 @@ label {
      border-radius: 12px;
  }
 
- @media (max-width: 500px) {
+ .web_da{
+    text-align: end!important;
+ }
+ .web_da1{
+     float: right;
+ }
+ .table {
+    margin-bottom: 0rem;
+  }
+
+  .hideprofile{
+    display:inline!important;
+  }
+  
+ @media (max-width: 577px) {
+
+    .toast-top-right {
+        top: 12px!important;
+        right: 4px!important;
+        left: 4px!important;
+    }
+
+    .dashboard-right .dashboard {
+        border: 0px solid #ddd;
+        padding: 30px;
+    }
+     
+    .account-sidebar {
+        width: 100%;
+    }
+
+    .dashboard-right .dashboard {
+        padding: 5px!important;
+    }
+
+    .hideprofile{
+        display:none!important;
+    }
+    .web_da{
+        text-align: left!important;
+    }    
+    .web_da1{
+        float: left!important;
+    }
+    .web_da2{
+        font-size: 10px!important;
+    }
+
+    .web_da3{
+        font-size:12px!important;
+    }
+
      .desktopwallet{
           display: none!important;
      }

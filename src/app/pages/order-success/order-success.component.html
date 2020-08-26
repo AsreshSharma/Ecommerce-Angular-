@@ -10,8 +10,11 @@
                 <div class="success-text" >
                     <i class="fa fa-check-circle" aria-hidden="true"></i>
                     <h2>thank you</h2>
-                    <!-- <p>Payment is successfully processsed and your order is on the way</p> -->
-                    <!-- <p>Transaction ID:267676GHERT105467</p> -->
+                    <p>Your Order No. #{{ readorder.order_no }} Has been Received ! </p>
+
+                    <p>
+                        <button class="btn btn-solid" (click)="continueshopping()">Continue Shopping</button>
+                    </p>
                 </div>
             </div>
         </div>
@@ -19,7 +22,8 @@
 </section>
 <!-- Section ends -->
 <!-- order-detail section start -->
-<section class="section-b-space"  *ngIf="readorder">
+<!--
+<section class="section-b-space" *ngIf="readorder">
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
@@ -64,7 +68,7 @@
                             <li>subtotal <span>{{ readorder.sub_total }}</span></li>
                             <li *ngIf="readorder.discount_amount > 0">Discount  <span>{{readorder.discount_amount}}</span></li>
                             <li *ngIf="readorder.coupon" style="color: red; font-size: 12px;">Coupon Applied <span>{{readorder.coupon}}</span></li>
-                            <li>shipping <span>0.00</span></li>
+                            <li *ngIf="readorder.delivery_charge > 0">Delivery Charge <span>{{readorder.delivery_charge}}</span></li>
                             <li>tax(GST) <span>{{readorder.total_tax}}</span></li>
                         </ul>
                     </div>
@@ -110,4 +114,6 @@
         </div>
     </div>
 </section>
+-->
+
 <!-- Section ends -->

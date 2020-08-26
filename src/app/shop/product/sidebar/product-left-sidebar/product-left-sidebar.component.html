@@ -178,7 +178,7 @@
                     <ngb-tab>
                         <ng-template ngbTabTitle>Description</ng-template>
                         <ng-template ngbTabContent>
-                          <p>{{ product.description }}</p>
+                          <p [innerHTML]="product.description"></p>
                         </ng-template>
                     </ngb-tab>
                 </ngb-tabset>

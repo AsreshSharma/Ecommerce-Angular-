@@ -16,6 +16,8 @@ import { json } from 'express';
 
 
 import { CouponlistComponent } from '../couponlist/couponlist/couponlist.component';
+import { WindowrefService } from '../../shared/services/windowref.service';
+import * as e from 'express';
 
 @Component({
   selector: 'app-checkout',
@@ -53,7 +55,8 @@ export class CheckoutComponent implements OnInit {
   couponcode='';
   couponapplyamt:any=0;
   couponStatus:any='0';
-  paymentMethodOptions = [
+  paymentMethodOptions=[];
+  paymentMethodOptions11 = [
     {
       "code": "COD",
       "desc": "COD"
@@ -105,7 +108,22 @@ export class CheckoutComponent implements OnInit {
   longitude:any;
 
   isSchedule:number=0;
+  api_key:any;
+  cmp_name:any;
+  cmp_logo:any;
+  isOnlinePay:any;
+
+  cust_name:any;
+  cust_mobile:any;
+  cust_email:any;
+  cust_address:any;
+
+  // shipping charges status=[0-no],[1,2,3->yes]
+  delivery_charges:any='0';
+  deliveryamt:any=0;
+  deliverymsg:any='';
   constructor(
+    private winRef: WindowrefService,
     public datepipe: DatePipe,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
@@ -113,8 +131,8 @@ export class CheckoutComponent implements OnInit {
     private router: Router, 
     public productService: ProductService,
     private orderService: OrderService, private commonAPIServices: CommonAPIService) {
-    let today = new Date();
-    this.fetchAvailableTimeSlots(today);
+    
+
     this.cmp_id=localStorage.getItem('cmp_id');
     if(localStorage.getItem("userInfo")){
       this.isLogin='true';
@@ -128,6 +146,7 @@ export class CheckoutComponent implements OnInit {
       this.latitude=pos.lat;
       this.longitude=pos.lng;
     });
+
   }
 
   ngOnInit(): void {
@@ -154,12 +173,23 @@ export class CheckoutComponent implements OnInit {
       }
     }          
     this.getamountorder();
+    this.getcust_info();
     // console.log(this.totalTax);
     
     this.productService.getPosition().then(pos=>{
       this.latitude=pos.lat;
       this.longitude=pos.lng;
     });
+
+    if(this.orderAcceptingMethods=='2'){      
+      let today = new Date();
+      this.fetchAvailableTimeSlots(today);
+    }
+    else if(this.orderAcceptingMethods==''){ 
+      let today = new Date();
+      this.fetchAvailableTimeSlots(today);
+    }
+
   }
 
   
@@ -193,6 +223,13 @@ export class CheckoutComponent implements OnInit {
     this.commonAPIServices.minbillingamountcheck(formData).subscribe(resp => {        
       this.spinner.hide();
       if (resp && resp.status == 1 && resp.data ) {
+        this.orderingMethodOptions=resp.data.arrayOrdering;
+        this.paymentMethodOptions=resp.data.arrayPayment;
+        this.api_key=resp.data.razorpay_key;
+        this.cmp_name=resp.data.cmp_name;
+        this.cmp_logo=resp.data.logo;
+        this.delivery_charges=resp.data.delivery_charges;
+
         this.minCartValue=resp.data.min_order;
         this.orderAcceptingMethods=resp.data.order_accepting_methods;
 
@@ -231,8 +268,25 @@ export class CheckoutComponent implements OnInit {
       this.showError(err);
     },
     () => {
-      // console.log("Complete function triggered.")
+      this.spinner.hide();
     });
+  }
+
+
+  // get customer address
+  getcust_info(){    
+    let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    let cust_id=userInfo.userId;
+    const formData = new FormData();
+    formData.append('id', cust_id);
+    this.commonAPIServices.profile(formData).subscribe(resp => {
+        if (resp && resp.status == 1 && resp.data) {          
+          this.cust_name=resp.data.name;
+          this.cust_mobile=resp.data.mobile;
+          this.cust_email=resp.data.email;
+          this.cust_address=resp.data.address;
+        } 
+      });
   }
 
 
@@ -258,6 +312,10 @@ export class CheckoutComponent implements OnInit {
         this.isAddressSelected = !this.isAddressSelected;
       });
     }
+    
+    this.deliveryamt=0;
+    this.deliverymsg='';
+
   }
 
   confirmAddress() {
@@ -267,6 +325,36 @@ export class CheckoutComponent implements OnInit {
     this.isAddressSelected = !this.isAddressSelected;
     // this.isAddressSelected=true;
     this.isEditModeForAddress = false;
+
+    // check shipping charges
+    if(this.delivery_charges=='0'){
+    }
+    else{
+      this.spinner.show();
+      let addressID=this.anotherAddressID; 
+      const formData = new FormData();
+      formData.append('cmp_id',this.cmp_id);
+      formData.append('selected_address',addressID);
+      formData.append('delivery_status',this.delivery_charges);
+      this.commonAPIServices.deliverychargesapply(formData).subscribe(resp => {        
+        this.spinner.hide();
+        if (resp && resp.status == 1 && resp.data) {        
+          this.deliveryamt=parseFloat(resp.data);
+          this.deliverymsg=resp.msg;
+        } 
+        else {  
+          this.deliveryamt=0;
+          this.deliverymsg='';
+        }
+      },
+      err => {      
+        this.spinner.hide();
+        this.showError(err);
+      },
+      () => {
+        this.spinner.hide();
+      });
+    }
   }
 
   onCalendarValueChange(value) {
@@ -384,39 +472,105 @@ export class CheckoutComponent implements OnInit {
             else{
               let userInfo = JSON.parse(localStorage.getItem("userInfo"));
               let selectedPaymentOption=this.paymentMethodObj.code;
-              if (userInfo && userInfo.userId && this.cmp_id && selectedPaymentOption) {
-                // var todayDate = new Date().toISOString().slice(0, 10);
-                const formData = new FormData();
-                formData.append('customer_id', userInfo.userId);
-                formData.append('cmp_id', this.cmp_id);
-                formData.append('booking_date', this.datepipe.transform(todayDate, 'yyyy-MM-dd'));
-                formData.append('slot_id', this.selectedSlot.id);
-                formData.append('modeofpayment', selectedPaymentOption);
-                formData.append('product', JSON.stringify(this.products));
-                formData.append('coupon_id',this.couponcode_id);
-                formData.append('couponapplyamt',this.couponapplyamt);
-                formData.append('anotheraddressid',addressID);
-                formData.append('payment_transaction_id', JSON.stringify(Math.random()));
-                this.commonAPIServices.placeNewOrder(formData).subscribe(resp => {
-                  if (resp.status == 1) {
-                    this.totalTax=0;
-                    this.removeProduct();
-                    this.showSuccess(resp.msg + " \n " + resp.msgtitle);   
-                    let appiont_id=resp.appoint_id;
-                    localStorage.setItem('appiont_id',JSON.stringify(appiont_id));         
-                    this.router.navigateByUrl('/pages/order/success');
-                    // this.productService.destroyedCartItem();               
-                    this.removeProduct();        
-                    this.removeProduct();        
-                    this.removeProduct();        
-                    this.removeProduct();
-                    // let appiont_id=resp.appoint_id;
-                    // this.router.navigate(['/checkout/success/id:' + appiont_id]);   
-                  } 
-                  else {
-                    this.showError("There is some issue while placing the order. Please contact with admin team.")
-                  }
-                });
+              if (userInfo && userInfo.userId && this.cmp_id && selectedPaymentOption) {                  
+                if(selectedPaymentOption=='NB'){                
+                  let readyamt=((this.finalamt+this.deliveryamt)-this.couponapplyamt)+'00';
+                  let options:any = {
+                    "key": this.api_key,
+                    "amount": readyamt,
+                    "name": this.cmp_name,
+                    "description": this.cmp_name,
+                    "image": this.cmp_logo,
+                    "modal": {
+                      "escape": false
+                    }, 
+                    "prefill": {
+                      "name": this.cust_name,
+                      "contact": this.cust_mobile,
+                      "email": this.cust_email,
+                    },
+                    "notes": {
+                      "address":this.cust_address
+                    },
+                    "theme": {
+                      "color": "#6fbc29"
+                    }
+                  };
+                  options.handler = ((response) => {
+                    if(response){                    
+                      const formData = new FormData();
+                      formData.append('customer_id', userInfo.userId);
+                      formData.append('cmp_id', this.cmp_id);
+                      formData.append('modeofpayment', selectedPaymentOption);
+                      formData.append('product', JSON.stringify(this.products));
+                      formData.append('coupon_id',this.couponcode_id);
+                      formData.append('couponapplyamt',this.couponapplyamt);
+                      formData.append('anotheraddressid',addressID);
+                      formData.append('payment_transaction_id', response.razorpay_payment_id);
+                      formData.append('delivery_charge',this.deliveryamt);
+                      this.commonAPIServices.instantOrder(formData).subscribe(resp => {
+                        if (resp.status == 1) {
+                          this.totalTax=0;
+                          this.removeProduct();
+                          this.showSuccess(resp.msg + " \n " + resp.msgtitle);   
+                          let appiont_id=resp.appoint_id;
+                          localStorage.setItem('appiont_id',JSON.stringify(appiont_id));         
+                          this.router.navigateByUrl('/pages/order/success');            
+                          this.removeProduct();        
+                          this.removeProduct();        
+                          this.removeProduct();        
+                          this.removeProduct();  
+                        } 
+                        else {
+                          this.showError("There is some issue while placing the order. Please contact with admin team.")
+                        }
+                      });
+                    }
+                    else{
+                      this.showError("Payment not successfully");
+                    }
+                  });
+                  options.modal.ondismiss = (() => {
+                    console.log('Loader false');
+                  });
+                  let rzp = new this.winRef.nativeWindow.Razorpay(options);
+                  rzp.open();
+                } 
+                else{ 
+                  // var todayDate = new Date().toISOString().slice(0, 10);
+                  const formData = new FormData();
+                  formData.append('customer_id', userInfo.userId);
+                  formData.append('cmp_id', this.cmp_id);
+                  formData.append('booking_date', this.datepipe.transform(todayDate, 'yyyy-MM-dd'));
+                  formData.append('slot_id', this.selectedSlot.id);
+                  formData.append('modeofpayment', selectedPaymentOption);
+                  formData.append('product', JSON.stringify(this.products));
+                  formData.append('coupon_id',this.couponcode_id);
+                  formData.append('couponapplyamt',this.couponapplyamt);
+                  formData.append('anotheraddressid',addressID);
+                  formData.append('payment_transaction_id','');
+                  formData.append('delivery_charge',this.deliveryamt);                  
+                  this.commonAPIServices.placeNewOrder(formData).subscribe(resp => {
+                    if (resp.status == 1) {
+                      this.totalTax=0;
+                      this.removeProduct();
+                      this.showSuccess(resp.msg + " \n " + resp.msgtitle);   
+                      let appiont_id=resp.appoint_id;
+                      localStorage.setItem('appiont_id',JSON.stringify(appiont_id));         
+                      this.router.navigateByUrl('/pages/order/success');
+                      // this.productService.destroyedCartItem();               
+                      this.removeProduct();        
+                      this.removeProduct();        
+                      this.removeProduct();        
+                      this.removeProduct();
+                      // let appiont_id=resp.appoint_id;
+                      // this.router.navigate(['/checkout/success/id:' + appiont_id]);   
+                    } 
+                    else {
+                      this.showError("There is some issue while placing the order. Please contact with admin team.")
+                    }
+                  });
+                }
               }
               else{
                 this.showError('Payment mode & User Credential Invalid!.');
@@ -435,33 +589,100 @@ export class CheckoutComponent implements OnInit {
           else{
             let userInfo = JSON.parse(localStorage.getItem("userInfo"));
             let selectedPaymentOption=this.paymentMethodObj.code;
-            if (userInfo && userInfo.userId && this.cmp_id && selectedPaymentOption) {
-              const formData = new FormData();
-              formData.append('customer_id', userInfo.userId);
-              formData.append('cmp_id', this.cmp_id);
-              formData.append('modeofpayment', selectedPaymentOption);
-              formData.append('product', JSON.stringify(this.products));
-              formData.append('coupon_id',this.couponcode_id);
-              formData.append('couponapplyamt',this.couponapplyamt);
-              formData.append('anotheraddressid',addressID);
-              formData.append('payment_transaction_id', JSON.stringify(Math.random()));
-              this.commonAPIServices.instantOrder(formData).subscribe(resp => {
-                if (resp.status == 1) {
-                  this.totalTax=0;
-                  this.removeProduct();
-                  this.showSuccess(resp.msg + " \n " + resp.msgtitle);   
-                  let appiont_id=resp.appoint_id;
-                  localStorage.setItem('appiont_id',JSON.stringify(appiont_id));         
-                  this.router.navigateByUrl('/pages/order/success');            
-                  this.removeProduct();        
-                  this.removeProduct();        
-                  this.removeProduct();        
-                  this.removeProduct();  
-                } 
-                else {
-                  this.showError("There is some issue while placing the order. Please contact with admin team.")
-                }
-              });
+            if (userInfo && userInfo.userId && this.cmp_id && selectedPaymentOption) {     
+              if(selectedPaymentOption=='NB'){                
+                // let readyamt=(this.finalamt-this.couponapplyamt)+'00';                
+                let readyamt=((this.finalamt+this.deliveryamt)-this.couponapplyamt)+'00';
+                let options:any = {                  
+                  "key": this.api_key,
+                  "amount": readyamt,
+                  "name": this.cmp_name,
+                  "description": this.cmp_name,
+                  "image": this.cmp_logo,
+                  "modal": {
+                    "escape": false
+                  }, 
+                  "prefill": {
+                    "name": this.cust_name,
+                    "contact": this.cust_mobile,
+                    "email": this.cust_email,
+                  },
+                  "notes": {
+                    "address":this.cust_address
+                  },
+                  "theme": {
+                    "color": "#6fbc29"
+                  }
+                };
+                options.handler = ((response) => {
+                  if(response){                    
+                    const formData = new FormData();
+                    formData.append('customer_id', userInfo.userId);
+                    formData.append('cmp_id', this.cmp_id);
+                    formData.append('modeofpayment', selectedPaymentOption);
+                    formData.append('product', JSON.stringify(this.products));
+                    formData.append('coupon_id',this.couponcode_id);
+                    formData.append('couponapplyamt',this.couponapplyamt);
+                    formData.append('anotheraddressid',addressID);
+                    formData.append('payment_transaction_id', response.razorpay_payment_id);
+                    formData.append('delivery_charge',this.deliveryamt);
+                    this.commonAPIServices.instantOrder(formData).subscribe(resp => {
+                      if (resp.status == 1) {
+                        this.totalTax=0;
+                        this.removeProduct();
+                        this.showSuccess(resp.msg + " \n " + resp.msgtitle);   
+                        let appiont_id=resp.appoint_id;
+                        localStorage.setItem('appiont_id',JSON.stringify(appiont_id));         
+                        this.router.navigateByUrl('/pages/order/success');            
+                        this.removeProduct();        
+                        this.removeProduct();        
+                        this.removeProduct();        
+                        this.removeProduct();  
+                      } 
+                      else {
+                        this.showError("There is some issue while placing the order. Please contact with admin team.")
+                      }
+                    });
+                  }
+                  else{
+                    this.showError("Payment not successfully");
+                  }
+                });
+                options.modal.ondismiss = (() => {
+                  console.log('Loader false');
+                });
+                let rzp = new this.winRef.nativeWindow.Razorpay(options);
+                rzp.open();
+              } 
+              else{       
+                const formData = new FormData();
+                formData.append('customer_id', userInfo.userId);
+                formData.append('cmp_id', this.cmp_id);
+                formData.append('modeofpayment', selectedPaymentOption);
+                formData.append('product', JSON.stringify(this.products));
+                formData.append('coupon_id',this.couponcode_id);
+                formData.append('couponapplyamt',this.couponapplyamt);
+                formData.append('anotheraddressid',addressID);
+                formData.append('payment_transaction_id','');
+                formData.append('delivery_charge',this.deliveryamt);
+                this.commonAPIServices.instantOrder(formData).subscribe(resp => {
+                  if (resp.status == 1) {
+                    this.totalTax=0;
+                    this.removeProduct();
+                    this.showSuccess(resp.msg + " \n " + resp.msgtitle);   
+                    let appiont_id=resp.appoint_id;
+                    localStorage.setItem('appiont_id',JSON.stringify(appiont_id));         
+                    this.router.navigateByUrl('/pages/order/success');            
+                    this.removeProduct();        
+                    this.removeProduct();        
+                    this.removeProduct();        
+                    this.removeProduct();  
+                  } 
+                  else {
+                    this.showError("There is some issue while placing the order. Please contact with admin team.")
+                  }
+                });
+              } 
             }
             else{
               this.showError('Payment mode & User Credential Invalid!.');
@@ -522,74 +743,6 @@ export class CheckoutComponent implements OnInit {
 
   public get getTotal(): Observable<number> {
     return this.productService.cartTotalAmount();
-  }
-
-  // Stripe Payment Gateway
-  stripeCheckout() {
-    var handler = (<any>window).StripeCheckout.configure({
-      key: environment.stripe_token, // publishble key
-      locale: 'auto',
-      token: (token: any) => {
-        // You can access the token ID with `token.id`.
-        // Get the token ID to your server-side code for use.
-        this.orderService.createOrder(this.products, this.checkoutForm.value, token.id, this.amount);
-      }
-    });
-    handler.open({
-      name: 'Multikart',
-      description: 'Online Fashion Store',
-      amount: this.amount * 100
-    })
-  }
-
-  // Paypal Payment Gateway
-  private initConfig(): void {
-    this.payPalConfig = {
-      currency: this.productService.Currency.currency,
-      clientId: environment.paypal_token,
-      createOrderOnClient: (data) => <ICreateOrderRequest>{
-        intent: 'CAPTURE',
-        purchase_units: [{
-          amount: {
-            currency_code: this.productService.Currency.currency,
-            value: this.amount,
-            breakdown: {
-              item_total: {
-                currency_code: this.productService.Currency.currency,
-                value: this.amount
-              }
-            }
-          }
-        }]
-      },
-      advanced: {
-        commit: 'true'
-      },
-      style: {
-        label: 'paypal',
-        size: 'small', // small | medium | large | responsive
-        shape: 'rect', // pill | rect
-      },
-      onApprove: (data, actions) => {
-        this.orderService.createOrder(this.products, this.checkoutForm.value, data.orderID, this.getTotal);
-        // console.log('onApprove - transaction was approved, but not authorized', data, actions);
-        actions.order.get().then(details => {
-          // console.log('onApprove - you can get full order details inside onApprove: ', details);
-        });
-      },
-      onClientAuthorization: (data) => {
-        // console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
-      },
-      onCancel: (data, actions) => {
-        // console.log('OnCancel', data, actions);
-      },
-      onError: err => {
-        // console.log('OnError', err);
-      },
-      onClick: (data, actions) => {
-        // console.log('onClick', data, actions);
-      }
-    };
   }
 
   
@@ -677,4 +830,112 @@ export class CheckoutComponent implements OnInit {
     this.couponapplyamt=0;
     this.couponcode='';
   }
+
+  
+  // Razorpay Payment Gateway
+  payWithRazor(){ 
+    let readyamt=(this.finalamt-this.couponapplyamt)+'00';
+    let options:any = {
+      "key": "rzp_test_uX4noNVHFgMuAM",
+      "amount": readyamt,
+      "name": "Ecomerce Single Vendor",
+      "description": "Ecomerce Single Vendor",
+      "image": "https://accountantlalaji.com/wp-content/uploads/2019/08/cropped-logoo-1-1-200x62.png",
+      "modal": {
+        "escape": false
+      }, 
+      "prefill": {
+        "name": 'Asresh Sharma',
+        "contact": 7049652334,
+        "email": 'asresh@gmail.com',
+      },
+      "notes": {
+        "address":'address' + ', ' + 'landmark' + ', ' + 'city_name' + ', ' + 'state_name' + '-' + 462022
+      },
+      "theme": {
+        "color": "#6fbc29"
+      }
+    };
+    options.handler = ((response) => {
+      console.log(response);
+      options['payment_response_id']=response.razorpay_payment_id;
+      // this.paymentService.payWithRazor({cart: finalObj, payment: options});
+    });
+    options.modal.ondismiss = (() => {
+       console.log('Loader false');
+       return 0;
+    });
+    let rzp = new this.winRef.nativeWindow.Razorpay(options);
+    rzp.open();
+  }  
+
+  
+  // Stripe Payment Gateway
+  stripeCheckout() {
+    var handler = (<any>window).StripeCheckout.configure({
+      key: environment.stripe_token, // publishble key
+      locale: 'auto',
+      token: (token: any) => {
+        // You can access the token ID with `token.id`.
+        // Get the token ID to your server-side code for use.
+        this.orderService.createOrder(this.products, this.checkoutForm.value, token.id, this.amount);
+      }
+    });
+    handler.open({
+      name: 'Multikart',
+      description: 'Online Fashion Store',
+      amount: this.amount * 100
+    })
+  }
+
+  // Paypal Payment Gateway
+  private initConfig(): void {
+    this.payPalConfig = {
+      currency: this.productService.Currency.currency,
+      clientId: environment.paypal_token,
+      createOrderOnClient: (data) => <ICreateOrderRequest>{
+        intent: 'CAPTURE',
+        purchase_units: [{
+          amount: {
+            currency_code: this.productService.Currency.currency,
+            value: this.amount,
+            breakdown: {
+              item_total: {
+                currency_code: this.productService.Currency.currency,
+                value: this.amount
+              }
+            }
+          }
+        }]
+      },
+      advanced: {
+        commit: 'true'
+      },
+      style: {
+        label: 'paypal',
+        size: 'small', // small | medium | large | responsive
+        shape: 'rect', // pill | rect
+      },
+      onApprove: (data, actions) => {
+        this.orderService.createOrder(this.products, this.checkoutForm.value, data.orderID, this.getTotal);
+        // console.log('onApprove - transaction was approved, but not authorized', data, actions);
+        actions.order.get().then(details => {
+          // console.log('onApprove - you can get full order details inside onApprove: ', details);
+        });
+      },
+      onClientAuthorization: (data) => {
+        // console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
+      },
+      onCancel: (data, actions) => {
+        // console.log('OnCancel', data, actions);
+      },
+      onError: err => {
+        // console.log('OnError', err);
+      },
+      onClick: (data, actions) => {
+        // console.log('onClick', data, actions);
+      }
+    };
+  }
+
 }

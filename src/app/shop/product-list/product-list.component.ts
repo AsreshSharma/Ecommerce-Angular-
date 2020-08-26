@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { ProductService } from "../../shared/services/product.service";
 import { Product } from '../../shared/classes/product';
+import { CommonAPIService } from 'src/app/shared/services/common-api.service';
 
 @Component({
   selector: 'app-product-list',
@@ -27,8 +28,12 @@ export class ProductListComponent implements OnInit {
   public mobileSidebar: boolean = false;
   public loader: boolean = true;
   public userCred:any;
+  
+  public categoryList = [];
+  currentId:any=0;
+  categoryName='';
   constructor(private route: ActivatedRoute, private router: Router,
-    private viewScroller: ViewportScroller, public productService: ProductService) { 
+    private viewScroller: ViewportScroller, public productService: ProductService,private commonAPIServices: CommonAPIService) { 
       localStorage.setItem("slugID",this.route.snapshot.params.slug);
       if(localStorage.getItem("slugID")=='undefined'){
         console.log('not found category');
@@ -65,9 +70,12 @@ export class ProductListComponent implements OnInit {
         })    
         */    
       }
+      
+      this.categoryName='';
   }
 
   ngOnInit(): void {      
+    this.categoryName='';
     localStorage.setItem("slugID",this.route.snapshot.params.slug);
     // console.log('OnInit pl : ' +localStorage.getItem("slugID"));
     if(localStorage.getItem("slugID")=='undefined'){
@@ -76,6 +84,18 @@ export class ProductListComponent implements OnInit {
     else{
       this.refresh();  
     }
+    this.currentId=localStorage.getItem("slugID");
+    this.getCategoryList();
+  }
+
+  
+  getCategoryList() {    
+		let companyId=localStorage.getItem("cmp_id");
+    const formData = new FormData();
+    formData.append('cmp_id', companyId);
+    this.commonAPIServices.fetchCategoryList(formData).subscribe(result => {
+      this.categoryList=result.data;
+    })
   }
 
   refresh(){ 
@@ -204,6 +224,16 @@ export class ProductListComponent implements OnInit {
   // Mobile sidebar
   toggleMobileSidebar() {
     this.mobileSidebar = !this.mobileSidebar;
+  }
+
+  // next category
+
+  nextcategory(id,name){    
+    this.categoryName=name;
+    this.currentId=id;
+    localStorage.setItem("slugID",id);
+    this.router.navigate(['/shop/productList/left/sidebar/',id]);
+    this.refresh();
   }
 
 }

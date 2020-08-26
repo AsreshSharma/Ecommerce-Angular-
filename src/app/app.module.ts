@@ -19,7 +19,16 @@ import { ElementsComponent } from './elements/elements.component';
 
 import { NgxSpinnerModule } from "ngx-spinner";
 
-import { DatePipe } from '@angular/common'
+import { DatePipe,AsyncPipe } from '@angular/common';
+
+
+import { environment } from '../environments/environment';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire';
+import { MessagingService } from 'src/app/shared/services/messaging.service';
+
 
 import 'hammerjs';
 import 'mousetrap';
@@ -57,11 +66,16 @@ export function HttpLoaderFactory(http: HttpClient) {
         }
     }),
     SharedModule,
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    AngularFireMessagingModule,
+    AngularFireModule.initializeApp(environment.firebase),
     AppRoutingModule
   ],
   providers: [
     DatePipe,
-    Meta
+    Meta,
+    MessagingService,AsyncPipe
   ],
   bootstrap: [AppComponent]
 })

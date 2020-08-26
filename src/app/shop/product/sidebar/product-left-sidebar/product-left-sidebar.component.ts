@@ -106,10 +106,10 @@ export class ProductLeftSidebarComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    console.log(this.titleService.getTitle());
-    console.log('Ondestroyed function call');
+    // console.log(this.titleService.getTitle());
+    // console.log('Ondestroyed function call');
     this.titleService.setTitle('Online Store');
-    console.log(this.titleService.getTitle());
+    // console.log(this.titleService.getTitle());
   }
 
   // Get Product Color

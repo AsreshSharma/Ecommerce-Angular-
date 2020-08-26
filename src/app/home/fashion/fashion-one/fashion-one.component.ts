@@ -24,11 +24,9 @@ export class FashionOneComponent implements OnInit {
   public categoryList = [];
 
   public base_url='';
+  public search:any='';
   constructor(private router: Router,private toastr: ToastrService,private spinner: NgxSpinnerService,public productService: ProductService, private commonAPIServices: CommonAPIService) {
-    this.base_url=location.origin;        
-    // if(localStorage.getItem("cmp_id")==undefined || localStorage.getItem("cmp_id")==undefined==null){
-    //   this.checkwebsite();  
-    // }  
+    this.base_url=location.origin; 
     this.companyId=localStorage.getItem("cmp_id");
     this.getCategoryList();    
     this.loadBanners();
@@ -37,8 +35,8 @@ export class FashionOneComponent implements OnInit {
   }
   
   ngOnInit(): void {   
+    this.base_url=location.origin; 
     if(localStorage.getItem("cmp_id")==undefined || localStorage.getItem("cmp_id")==null){
-      console.log('cmp id not found');
       this.checkwebsite();  
     }
     else{
@@ -49,6 +47,7 @@ export class FashionOneComponent implements OnInit {
   }
 
   productsearch() {
+    localStorage.setItem('searchproduct',this.search);
     this.router.navigate(['/pages/search']);
   }
   
@@ -67,7 +66,8 @@ export class FashionOneComponent implements OnInit {
           localStorage.setItem("cmp_id", resp.data.cmp_id);
           localStorage.setItem("logo", resp.data.logo);  
           localStorage.setItem("mobile", resp.data.mobile);  
-          localStorage.setItem("title", resp.data.title);       
+          localStorage.setItem("title", resp.data.title);     
+          localStorage.setItem("meta_description", resp.data.meta_description);   
           this.loadBanners();
           this.fetchOffers();
           this.loadFeatureProducts();  

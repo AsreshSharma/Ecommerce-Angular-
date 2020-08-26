@@ -17,3 +17,17 @@
         border-bottom: 0px!important;
     }
 }
+
+.fa-phone:before {
+    content: "";
+    font-size: 40px;
+}
+
+.fa-whatsapp:before {
+    content: "";
+    font-size: 40px;
+}
+
+.btn {
+    font-weight: 100;
+}

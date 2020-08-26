@@ -152,7 +152,7 @@
                  <span class="sub-arrow"  *ngIf="menuItem.children"></span>
               </a>
               <!-- Link -->
-              <a [routerLink]="menuItem.path" *ngIf="menuItem.type === 'link'">
+              <a [routerLink]="menuItem.path" *ngIf="menuItem.type === 'link'" (click)="closeleftMenuToggle()">
                  {{menuItem.title}}
                  <span class="sub-arrow" *ngIf="menuItem.children"></span>
               </a>
@@ -173,7 +173,7 @@
                 <ng-container *ngIf="!menuItem.megaMenu">
                   <li *ngFor="let childrenItem of menuItem.children">
                     <!-- Link -->
-                    <a [routerLink]="childrenItem.path" *ngIf="childrenItem.type === 'link'">
+                    <a [routerLink]="childrenItem.path" *ngIf="childrenItem.type === 'link'" (click)="closeleftMenuToggle()">
                        {{childrenItem.title}}
                     </a>
                     <!-- External Link -->
@@ -188,7 +188,7 @@
                     <ul *ngIf="childrenItem.children">
                       <li *ngFor="let childrenSubItem of childrenItem.children">
                           <!-- Link -->
-                          <a [routerLink]="childrenSubItem.path" *ngIf="childrenSubItem.type === 'link'">
+                          <a [routerLink]="childrenSubItem.path" *ngIf="childrenSubItem.type === 'link'" (click)="closeleftMenuToggle()">
                              {{childrenSubItem.title}}
                           </a>
                           <!-- External Link -->
@@ -203,7 +203,7 @@
                           <ul *ngIf="childrenSubItem.children">
                             <li *ngFor="let childrenSubSubItem of childrenSubItem.children">
                                 <!-- Link -->
-                                <a [routerLink]="childrenSubSubItem.path" *ngIf="childrenSubSubItem.type === 'link'">
+                                <a [routerLink]="childrenSubSubItem.path" *ngIf="childrenSubSubItem.type === 'link'" (click)="closeleftMenuToggle()">
                                    {{childrenSubSubItem.title}}
                                 </a>
                                 <!-- External Link -->
@@ -218,7 +218,7 @@
                                 <ul *ngIf="childrenSubSubItem.children">
                                   <li *ngFor="let childrenSubSubSubItem of childrenSubSubItem.children">
                                       <!-- Link -->
-                                      <a [routerLink]="childrenSubSubSubItem.path" *ngIf="childrenSubSubSubItem.type === 'link'">
+                                      <a [routerLink]="childrenSubSubSubItem.path" *ngIf="childrenSubSubSubItem.type === 'link'" (click)="closeleftMenuToggle()">
                                          {{childrenSubSubSubItem.title}}
                                       </a>
                                       <!-- External Link -->
@@ -249,7 +249,7 @@
                         <ul>
                           <li *ngFor="let childrenSubItem of childrenItem.children">
                              <!-- Link -->
-                              <a [routerLink]="childrenSubItem.path" *ngIf="childrenSubItem.type === 'link'">
+                              <a [routerLink]="childrenSubItem.path" *ngIf="childrenSubItem.type === 'link'" (click)="closeleftMenuToggle()">
                                  {{childrenSubItem.title}}
                               </a>
                               <!-- External Link -->
@@ -273,6 +273,13 @@
                 <!-- Mega Menu End-->
               </ul>
             </li>
+
+          <li *ngIf="logoutStatus==1">            
+            <!-- logout -->
+            <a href="javascript:void(0)" (click)="logout()">
+                Logout
+            </a>
+          </li>
         </ul>
 
       </nav>

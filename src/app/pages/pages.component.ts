@@ -16,10 +16,8 @@ export class PagesComponent implements OnInit {
 
   public base_url='';
   constructor(private router: Router,private spinner: NgxSpinnerService,private commonAPIService: CommonAPIService,
-    private toastr: ToastrService) {
-      
+    private toastr: ToastrService) {      
     this.base_url=location.origin;    
-    // this.base_url="https://greenandgrains.com"; 
     this.router.events.subscribe((event) => {  
       if (event instanceof NavigationEnd) {
         this.url = event.url;
@@ -30,7 +28,6 @@ export class PagesComponent implements OnInit {
 
   ngOnInit(): void {   
     this.base_url=location.origin;   
-    // this.base_url="https://greenandgrains.com"; 
     if(localStorage.getItem("cmp_id")==undefined || localStorage.getItem("cmp_id")==null){
       this.checkwebsite();  
     }
@@ -51,6 +48,7 @@ export class PagesComponent implements OnInit {
           localStorage.setItem("logo", resp.data.logo);
           localStorage.setItem("mobile", resp.data.mobile);  
           localStorage.setItem("title", resp.data.title); 
+          localStorage.setItem("meta_description", resp.data.meta_description); 
         }
       } 
       else {        

@@ -1,4 +1,4 @@
-<app-breadcrumb [title]="'Profile'" [breadcrumb]="'Profile'"></app-breadcrumb>
+<app-breadcrumb [title]="'Profile'" [breadcrumb]="'Profile'" class="hideprofile"></app-breadcrumb>
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
     <p style="font-size: 20px; color: white">Loading...</p>
   </ngx-spinner>
@@ -6,10 +6,10 @@
 <section class="section-b-space" style="background-color: #ececec;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-3">
+            <div class="col-12 col-lg-3">
                 <div class="account-sidebar" (click)="ToggleDashboard()">
                     <a hre="javascript:void(0)" class="popup-btn">
-                        Wallet: {{ model.wallet }}
+                        Wallet : {{ model.wallet }}
                     </a>
                 </div>
                 <div class="dashboard-left" [class.open]="openDashboard">
@@ -21,7 +21,7 @@
                     <div class="block-content">
                         
                         <h3 class="desktopwallet" style="border-bottom: 1px solid #17a2b8;font-size: 18px;">                                
-                            Wallet Ballance: {{ model.wallet }}
+                            Wallet Ballance : {{ model.wallet }}
                         </h3>
                         <ul>
                             <li class="{{checkactive(0)}}">
@@ -54,7 +54,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-9">
+            <div class="col-12 col-lg-9">
                 <!-- Account Info -->
                 <div class="dashboard-right" *ngIf="statusNo==0">
                     <div class="dashboard">
@@ -87,11 +87,6 @@
                                         <div class="col-md-4 form-group">
                                             <label class="">State: </label>   
                                             <input type="text" readonly="readonly" class="form-control form-control-sm" name="state" [(ngModel)]="model.state">                                   
-                                        </div>
-
-                                        <div class="col-md-12 form-group">
-                                            <label class="">Address: </label>
-                                            <textarea rows="5" class="form-control form-control-sm" name="address" [(ngModel)]="model.address"></textarea>
                                         </div>
                                         <div class="col-md-12 form-group">
                                             <button class="btn btn-success" type="submit">Update</button>
@@ -180,13 +175,13 @@
                         <div class="box-account box-info" *ngIf="addressStatus==0">
                             <div class="row" *ngIf="addressLists">
                                 <div class="col-12 col-md-4" *ngFor="let ua of addressLists; let i = index">
-                                    <strong>{{ i+1 }}. {{ ua.name }}, {{ ua.mobile }}</strong>
+                                    <strong>{{ ua.name }}, {{ ua.mobile }}</strong>
                                     <p>
                                         {{ ua.address }}, {{ ua.city }}, {{ ua.state }}
                                         <br>
-                                        latitude: {{ ua.latitude }} and Longitude: {{ ua.longitude }}
-                                        <br>
-                                        <span class="custBTNup" (click)="updateAddress(ua.id)">Edit</span>
+                                        <span class="custBTNup" (click)="updateAddress(ua.id)">
+                                            <i class="fa fa-edit"></i>
+                                        </span>
                                     </p>
                                 </div>
                             </div>
@@ -216,21 +211,16 @@
                                                 <option *ngFor="let state of stateList" [value]="state.id">{{state.name}}</option>
                                             </select>
                                         </div>
+
                                         <div class="col-md-6">
                                             <label for="city">City</label>
                                             <select class="form-control" name="city" [(ngModel)]="addressForm.city">
                                                 <option *ngFor="let city of cityList" [ngValue]="city.id">{{city.name}}</option>
                                             </select>
+                                            <input type="hidden" class="form-control" name="latitude" [(ngModel)]="addressForm.latitude">
+                                            <input type="hidden" class="form-control" name="longitude" [(ngModel)]="addressForm.longitude">
                                         </div>
 
-                                        <div class="col-md-4">
-                                            <label for="state">Latitude</label>
-                                            <input type="text" class="form-control" name="latitude" [(ngModel)]="addressForm.latitude">
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="longitude">Longitude</label>
-                                            <input type="text" class="form-control" name="longitude" [(ngModel)]="addressForm.longitude">
-                                        </div>
                                         <div class="col-md-4">
                                             <label for="status">Status</label>
                                             <select class="form-control" name="status" [(ngModel)]="addressForm.status">
@@ -277,16 +267,11 @@
                                             <select class="form-control" name="city" [(ngModel)]="addressForm.city">
                                                 <option *ngFor="let city of cityList" [ngValue]="city.id">{{city.name}}</option>
                                             </select>
+                                            <input type="hidden" class="form-control" name="latitude" [(ngModel)]="addressForm.latitude">
+
+                                            <input type="hidden" class="form-control" name="longitude" [(ngModel)]="addressForm.longitude">
                                         </div>
 
-                                        <div class="col-md-4">
-                                            <label for="state">Latitude</label>
-                                            <input type="text" class="form-control" name="latitude" [(ngModel)]="addressForm.latitude">
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="longitude">Longitude</label>
-                                            <input type="text" class="form-control" name="longitude" [(ngModel)]="addressForm.longitude">
-                                        </div>
                                         <div class="col-md-4">
                                             <label for="status">Status</label>
                                             <select class="form-control" name="status" [(ngModel)]="addressForm.status">
@@ -377,21 +362,28 @@
                                                 <div class="card-body product-box">
                                                     <div class="img-wrapper">
                                                         <div class="row">
-                                                            <div class="col-6 col-md-6">
-                                                                #{{ readorder.order_no }}
+                                                            <div class="col-6 col-md-6" style="text-align: left;">
+                                                                <strong>Order No. #{{ readorder.order_no }} </strong>
                                                             </div>
                                                             <div class="col-6 col-md-6" style="text-align: right;">                                                                
-                                                                <strong>{{ readorder.status_msg }}</strong>
+                                                                <strong>Status: {{ readorder.status_msg }}</strong>
                                                             </div>
-                                                            <div class="col-12 col-md-12">                                                                                                                              
-                                                                <i class="fa fa-building-o" aria-hidden="true"></i> : {{ readorder.cmp_name }}  
-                                                                <br>                                                                                                                                   
-                                                                <i class="fa fa-map-marker" aria-hidden="true"></i> : {{ readorder.cmp_address }} 
-                                                                <br>                                          
-                                                                <i class="fa fa-clock-o" aria-hidden="true"></i> : {{  readorder.date }}  {{  readorder.slot_time }}
+                                                            <div class="col-12 col-md-6"> 
+                                                                <p>                
+                                                                    <i class="fa fa-building-o" aria-hidden="true"></i> : {{ readorder.cmp_name }}  
+                                                                    <br>                                                                                                                                   
+                                                                    <i class="fa fa-map-marker" aria-hidden="true"></i> : {{ readorder.cmp_address }} 
+                                                                    <br>                                          
+                                                                    <i class="fa fa-clock-o" aria-hidden="true"></i> : {{  readorder.date }}  {{  readorder.slot_time }}
+                                                                </p>                                                                                             
+                                                            </div>
+                                                            <div class="col-12 col-md-6">    
+                                                                <p class="web_da" style="margin-bottom: 0px!important;">Delivery Address</p>
+                                                                <p class="web_da" [innerHTML]="readorder.delivery_address">
+                                                                </p>
                                                             </div>
                                                             <div class="col-12 col-md-12 table table-responsive">
-                                                                <table class="table tabls-sm">
+                                                                <table class="table tabls-sm web_da3">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Item</th>
@@ -418,9 +410,32 @@
                                                                             <td colspan="2" class="tdalingright">Discount</td>
                                                                             <td class="tdalingright">{{ readorder.discount_amount }}</td>
                                                                         </tr>
+                                                                        
+                                                                        <tr *ngIf="readorder.delivery_charge > 0">
+                                                                            <td colspan="2" class="tdalingright">                                                                                
+                                                                                <strong *ngIf="readorder.coupon" style="color:green; font-size: 10px; text-align: left!important;">                                                                                    
+                                                                                    Coupon Applied <span>{{readorder.coupon}}</span>
+                                                                                </strong>
+                                                                                Delivery Charge
+                                                                            </td>
+                                                                            <td class="tdalingright">{{ readorder.delivery_charge }}</td>
+                                                                        </tr>
+                                                                        
                                                                         <tr *ngIf="readorder.grandtotal > 0">
                                                                             <td colspan="2" class="tdalingright">Grand Total</td>
                                                                             <td class="tdalingright">{{ (readorder.grandtotal-readorder.discount_amount) }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td colspan="3" class="web_da2">
+                                                                                <span>
+                                                                                    Payment Mode: 
+                                                                                    <strong>{{readorder.mode}}</strong>
+                                                                                </span>
+                                                                                <span class="web_da1">
+                                                                                    Payment Status:  
+                                                                                    <strong>{{readorder.payment_status}}</strong>
+                                                                                </span>
+                                                                            </td>
                                                                         </tr>
                                                                     </tbody>
                                                                 </table>

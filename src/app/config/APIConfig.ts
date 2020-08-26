@@ -47,4 +47,8 @@ apiConfig = {
   "billview": apiServiceBasePath + "newapp/api1/stock_sale_print",
   "searchwebsite": apiServiceBasePath + "newapp/api/clientapi/searchwebsite",
   "aboutus": apiServiceBasePath + "newapp/api/clientapi/aboutus",
+  "deliverychargesapply": apiServiceBasePath + "newapp/api/clientapi/deliverychargesapply",
+  "get_otp": apiServiceBasePath + "newapp/api/clientapi/newget_otp",
+  "verify_otp": apiServiceBasePath + "newapp/api/clientapi/newverify_otp",
+  "create_password": apiServiceBasePath + "newapp/api/clientapi/create_password",
 }

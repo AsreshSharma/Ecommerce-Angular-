@@ -87,6 +87,11 @@ export class ProductBoxOneComponent implements OnInit {
     this.productService.updateCartQuantity(product, qty);
   }
 
+  // remove item
+  public removeItem(product: any) {
+    this.productService.removeCartItem(product);
+  }
+
   public checkqty_tocart(pro_id){
     let array = this.products;
     let isActive=0;

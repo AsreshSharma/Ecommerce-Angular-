@@ -11,9 +11,12 @@
                         {{ category.category_name}}
                     </a>
                 </li>
+                [routerLink]="['/shop/productList/left/sidebar/',category.category_id]"
                 -->
                 <li *ngFor="let category of categoryList">
-                    <a [routerLink]="['/shop/productList/left/sidebar/',category.category_id]" class="{{isActive(category.category_id)}}">
+                    <a  href="javascript:void(0);"
+                        (click)="categoryRoute(category.category_id)"                         
+                        class="{{isActive(category.category_id)}}">
                         {{ category.category_name}}
                     </a>
                 </li>

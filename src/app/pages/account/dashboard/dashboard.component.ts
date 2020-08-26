@@ -71,7 +71,6 @@ export class DashboardComponent implements OnInit {
 		let cred=JSON.parse(localStorage.getItem("userInfo")); 
     this.userId=cred.userId;
     this.cmpId=cred.companyId;
-    this.my_orders();
     // this.profile();    
     this.productService.getPosition().then(pos=>{
       this.latitude=pos.lat;
@@ -80,7 +79,17 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.profile();
+    if(localStorage.getItem('setStatus')=='0'){
+      this.statusNo=0;
+      this.profile();
+    }
+    else if(localStorage.getItem('setStatus')=='1'){
+      this.statusNo=1;
+      this.address_book();
+    }
+    else{
+      this.my_orders();
+    }
     this.state();
     this.productService.getPosition().then(pos=>{
       this.latitude=pos.lat;
@@ -89,17 +98,20 @@ export class DashboardComponent implements OnInit {
   }
 
   account_info(){
+    this.openDashboard =false;
     this.statusNo=0;
     this.profile();
   }
 
   address_book(){
+    this.openDashboard =false;
     this.statusNo=1;
     this.addressStatus=0;
     this.userAddressList();
   }
   
   my_orders(){
+    this.openDashboard =false;
     this.statusNo=2;
     this.upcomingorderlist();
   }
@@ -120,6 +132,7 @@ export class DashboardComponent implements OnInit {
   
   
   change_password(){
+    this.openDashboard =false;
     this.statusNo=6;
   }
   
@@ -451,6 +464,7 @@ export class DashboardComponent implements OnInit {
         }
     ); 
   }
+  
 
   saveupdateAddress(){
     this.spinner.show();

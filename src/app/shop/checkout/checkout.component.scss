@@ -54,7 +54,12 @@
 
 .roundbtn{
     border-radius: 22px;
-    padding: 10px 26px;
+    padding: 10px 26px;    
+    background: red;
+    margin-bottom: 10px;
+    a{
+        color: white;
+    }
 }
 
 .form-check-label {
@@ -142,7 +147,7 @@ label111{
 
     .mobileMOP{
       text-align: center;
-      margin: 0px 10px;
+      margin: 2px 8px 9px 8px;
     }
 
     .alert {
@@ -151,13 +156,11 @@ label111{
         max-width: 100% !important;
         margin: 9px 12px!important;
     }
+    
+    .checkout-page .checkout-form input[type="text"], .checkout-page .checkout-form input[type="email"], .checkout-page .checkout-form input[type="password"], .checkout-page .checkout-form input[type="tel"], .checkout-page .checkout-form input[type="number"], .checkout-page .checkout-form input[type="url"] {
+        height: 30px;
+    }
 }
-
-.mobileMOP{
-    text-align: left;
-    margin: 10px 8px;
-}   
-
 
 .mobileForm111{    
     padding: 0px 10px!important;
@@ -188,4 +191,30 @@ a {
 .checkout-page .checkout-form .form-group {
     margin-bottom: 0px!important;
     margin: 5px 0px;
+}
+.table th, .table td {
+    padding: 4px;
+}
+
+
+.table th, .table td {
+    border-top: 0px solid #dee2e6!important;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.selfcouponcode{
+    border-bottom: 1px solid #dddddd!important;
+    border-top: 0px solid #dddddd!important;
+    border-left: 0px solid #dddddd!important;
+    border-right: 0px solid #dddddd!important;
+    border-radius: 0px!important;
+    background-color: #f9f9f9!important;
+}
+
+.checkout-page .checkout-form .checkout-details {
+    border: 0px solid #dddddd;
 }

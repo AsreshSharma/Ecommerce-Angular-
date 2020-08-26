@@ -1,6 +1,55 @@
 <app-breadcrumb [title]="'Profile'" [breadcrumb]="'Profile'"></app-breadcrumb>
-<!-- personal deatail section start -->
+
+<!-- profile start -->
 <section class="contact-page register-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <form class="theme-form" #profileForm="ngForm" (ngSubmit)="saveProfile()" novalidate>
+                    <div class="row">
+                        <div class="col-md-4 form-group">
+                            <label >Name: </label>
+                            <input type="text" class="form-control form-control-sm" name="name" [(ngModel)]="model.name" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label >Mobile: </label>
+                            <input type="number" readonly="readonly" class="form-control form-control-sm" name="mobile" [(ngModel)]="model.mobile">
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label class="">Email: </label>   
+                            <input type="email" class="form-control form-control-sm" name="email" [(ngModel)]="model.email">                                 
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label class="">D.O.B:</label>   
+                            <input type="date" class="form-control form-control-sm" name="dob" [(ngModel)]="model.dob">                                   
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <label class="">City: </label>   
+                            <input type="text" class="form-control form-control-sm" name="city" [(ngModel)]="model.city">                                   
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <label class="">State: </label>   
+                            <input type="text" readonly="readonly" class="form-control form-control-sm" name="state" [(ngModel)]="model.state">                                   
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <button class="btn btn-success" type="submit">Update</button>
+                            &nbsp; &nbsp;
+                            <button class="btn btn-info" (click)="address_book()">Adress Book</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- profile ends -->
+
+
+
+<!-- personal deatail section start -->
+<section class="contact-page register-page" style="display: none;">
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
@@ -34,8 +83,11 @@
     </div>
 </section>
 <!-- Section ends -->
+
+
+
 <!-- address section start -->
-<section class="contact-page register-page section-b-space">
+<section class="contact-page register-page section-b-space" style="display: none;">
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
@@ -81,3 +133,4 @@
     </div>
 </section>
 <!-- Section ends -->
+

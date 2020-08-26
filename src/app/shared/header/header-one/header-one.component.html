@@ -14,13 +14,13 @@
       </div>
 
       <div class="col-3" *ngIf="isLogin">
-        <a routerLink="/pages/dashboard">
+        <a href="javascript:void(0);" (click)="order()">
           <i class="fa fa-book" aria-hidden="true"></i><br>Order
         </a>
       </div>
 
       <div class="col-3" *ngIf="isLogin">
-        <a routerLink="/pages/dashboard">
+        <a href="javascript:void(0);" (click)="profile()">
           <i class="fa fa-user" aria-hidden="true"></i><br>Profile
         </a>
       </div>
@@ -65,12 +65,18 @@
                 </li>
             -->
             <li>              
-              <div class="input-group md-form form-sm form-2 pl-0" style="padding: 3px!important;">
-                <input class="form-control my-0 py-1 amber-border" type="text" placeholder="Search" aria-label="Search"
-                style="border-top-left-radius: 10px!important;border-bottom-left-radius: 10px!important;
-                height: 38px!important;border-top-right-radius: 0px!important;border-bottom-right-radius: 0px!important;">
+              <div class="input-group md-form form-sm form-2 pl-0" style="padding-right:15px!important;">
+                <input 
+                    class="form-control my-0 py-1 amber-border" 
+                    type="text" 
+                    name="search"
+                    [(ngModel)]="search"
+                    style="border-top-left-radius: 25px!important;border-bottom-left-radius: 25px!important;
+                    height: 38px!important;border-top-right-radius: 0px!important;border-bottom-right-radius: 0px!important;"
+                    (keyup.enter)="productsearch()"
+                >
                 <div class="input-group-append" 
-                  style="border-radius: 16px;height: 38px;"  (click)="productsearch()">
+                  style="border-radius: 16px;height: 38px;" (click)="productsearch()">
                   <span class="input-group-text amber lighten-3" id="basic-text1"><i class="fa fa-search text-grey"
                       aria-hidden="true"></i></span>
                 </div>

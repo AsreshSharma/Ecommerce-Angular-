@@ -1,5 +1,28 @@
 <app-breadcrumb [title]="'Category'" [breadcrumb]="'Category'" class="mobileHide1"></app-breadcrumb>
-<!-- section start -->
+
+<div class="breadcrumb-section extraMobile" style="padding:6px 0">
+    <div class="container" style="background-color: #f8f8f8;">
+      <div class="row">
+        <div class="col-sm-12">
+          <nav aria-label="breadcrumb" class="theme-breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <a [routerLink]="'/home/fashion'"><i class="fa fa-arrow-left"></i> Back</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page" *ngIf="categoryName==''">
+                    {{products[0].category}}
+                </li>                
+                <li class="breadcrumb-item active" aria-current="page" *ngIf="categoryName">
+                    {{categoryName}}
+                </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- section start class="mobileHide1"-->
 <section class="section-b-space">
     <div class="collection-wrapper">
         <div class="container">
@@ -72,9 +95,9 @@
                                     </li>
                                 </ul>
                                 <div class="collection-product-wrapper" id="products">
-                                    <!-- <div class="btn btn-success" (click)="refresh()" style="margin-bottom: 1px;">Refresh </div> -->
+                                    <!-- <div class="btn btn-success" (click)="refresh()" style="margin-bottom: 1px;">Refresh  </div> -->
                                     
-                                    <app-grid [products]="products" [paginate]="paginate" [layoutView]="layoutView" [sortBy]="sortBy" (setGrid)="updateGridLayout($event)" (setLayout)="updateLayoutView($event)" (sortedBy)="sortByFilter($event)">
+                                    <app-grid class="mobileViewhide" [products]="products" [paginate]="paginate" [layoutView]="layoutView" [sortBy]="sortBy" (setGrid)="updateGridLayout($event)" (setLayout)="updateLayoutView($event)" (sortedBy)="sortByFilter($event)">
                                     </app-grid>
                                    
                                     <div class="product-wrapper-grid" [ngClass]="layoutView">
@@ -101,8 +124,20 @@
                                             </div>
                                         </div>
                                     </div>
+                                        
+                                    <div class="row extraMobileCategory" *ngIf="categoryList">
+                                        <h3 style="color: #cfd4da;text-align: center;font-size: 18px;">More Categories</h3>
+                                        <div *ngFor="let cat of categoryList;">
+                                            <a class="selfcategory" href="javascript:void(0)" *ngIf="currentId!=cat.category_id" (click)="nextcategory(cat.category_id,cat.category_name)">
+                                                {{cat.category_name}}
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <!--
                                     <app-pagination [products]="products" [paginate]="paginate" (setPage)="setPage($event)">
-                                    </app-pagination>
+                                    </app-pagination> 
+                                    -->
                                 </div>
                             </div>
                         </div>

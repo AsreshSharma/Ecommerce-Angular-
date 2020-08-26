@@ -31,14 +31,15 @@ export class RegisterComponent implements OnInit {
   
   public cmplogo='./assets/images/about-main2.jpg';
   public cmpid='';
-
+  public get_fcm_token:any='';
   constructor(public productService: ProductService,private spinner: NgxSpinnerService,private toastr: ToastrService,private router : Router, private commonAPIService: CommonAPIService) { 
     this.cmplogo=localStorage.getItem('logo');
     this.cmpid=localStorage.getItem('cmp_id');      
     this.productService.getPosition().then(pos=>{
       this.latitude=pos.lat;
       this.longitude=pos.lng;
-    });
+    });     
+    this.get_fcm_token=localStorage.getItem('token');
   }
   
   ngOnInit(): void {
@@ -48,7 +49,8 @@ export class RegisterComponent implements OnInit {
       // console.log(`Positon: ${pos.lng} ${pos.lat}`);
       this.latitude=pos.lat;
       this.longitude=pos.lng;
-    });
+    }); 
+    this.get_fcm_token=localStorage.getItem('token');
   }
 
   ngOnDestroy(){
@@ -69,6 +71,7 @@ export class RegisterComponent implements OnInit {
       formData.append('refferal', this.model.refferal);
       formData.append('latitude', this.latitude);
       formData.append('longitude', this.longitude);
+      formData.append('fcm_token',this.get_fcm_token);
       this.commonAPIService.registerUser(formData).subscribe(resp => {        
           this.spinner.hide();
           if (resp && resp.status == 1 && resp.data ) {

@@ -25,11 +25,16 @@ export class SearchComponent implements OnInit {
     public productService: ProductService, 
     private commonAPIServices: CommonAPIService) { 
       this.companyId=localStorage.getItem("cmp_id");
+      this.productname=localStorage.getItem('searchproduct');
 
   }
 
   ngOnInit(): void {
+    this.productname=localStorage.getItem('searchproduct');
     this.companyId=localStorage.getItem("cmp_id");
+    if(this.productname!=''){
+      this.loadsearchProducts();
+    }
   }
 
   
@@ -41,6 +46,7 @@ export class SearchComponent implements OnInit {
     this.commonAPIServices.productSearch(formData).subscribe(resp => {
       this.spinner.hide();
       if (resp && resp.data && resp.data.length > 0) {
+        this.spinner.hide();
         this.searchProducts = resp.data;
       }
       else {        
